@@ -14,7 +14,6 @@ specifiers:
   '@angular/router': ^15.1.0
   '@types/jasmine': ~4.3.0
   '@webcontainer/api': ^1.0.2
-  highlight.js: ^11.7.0
   jasmine-core: ~4.5.0
   karma: ~6.4.0
   karma-chrome-launcher: ~3.1.0
@@ -22,7 +21,6 @@ specifiers:
   karma-jasmine: ~5.1.0
   karma-jasmine-html-reporter: ~2.0.0
   monaco-editor: ^0.36.1
-  ngx-highlightjs: ^8.0.0
   ngx-monaco-editor-v2: ^15.0.1
   rxjs: ~7.8.0
   tailwindcss: ^3.2.7
@@ -40,9 +38,7 @@ dependencies:
   '@angular/platform-browser-dynamic': 15.1.5_pzachiwybhx467gapqhrlestmm
   '@angular/router': 15.1.5_yndgxvmaauschrcdo656cxz5sy
   '@webcontainer/api': 1.0.2
-  highlight.js: 11.7.0
   monaco-editor: 0.36.1
-  ngx-highlightjs: 8.0.0_pq7so2lxnramwprfbopfupfyze
   ngx-monaco-editor-v2: 15.0.1_rgeysgndze7cnnc3qbejuntfhe
   rxjs: 7.8.0
   tslib: 2.5.0
@@ -3873,15 +3869,6 @@ packages:
     resolution: {integrity: sha512-7kIufnBqdsBGcSZLPJwqHT3yhk1QTsSlFsVD3kx5ixH/AlgBs9yM1q6DPhXZ8f8gtdqgh7N7/5btRLpQsS2gHw==}
     dev: true
 
-  /highlight.js/11.7.0:
-    resolution: {integrity: sha512-1rRqesRFhMO/PRF+G86evnyJkCgaZFOI+Z6kdj15TA18funfoqJXvgPCLSf0SWq3SRfg1j3HlDs8o4s3EGq1oQ==}
-    engines: {node: '>=12.0.0'}
-    dev: false
-
-  /highlightjs-line-numbers.js/2.8.0:
-    resolution: {integrity: sha512-TEf1gw0c8mb8nan0QwliqS7obT4cpUd9hzsGzsZLweteNnWea/VIqy5/aQqsa5wnz9lnvmtAkS1ZtDTjB/goYQ==}
-    dev: false
-
   /hosted-git-info/6.1.1:
     resolution: {integrity: sha512-r0EI+HBMcXadMrugk0GCQ+6BQV39PiWAZVfq7oIckeGiN7sjRGyQxPdft3nQekFTCQbYxLBH+/axZMeH8UX6+w==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
@@ -4900,21 +4887,6 @@ packages:
   /neo-async/2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
-
-  /ngx-highlightjs/8.0.0_pq7so2lxnramwprfbopfupfyze:
-    resolution: {integrity: sha512-joRqwYnliH+Qv5ceM/YmUWaryO+7hhBp8KVs91GSmTf8mZdD0OL6iYsQgg0p64YAjoStmO6MR11BP9W847NYEg==}
-    peerDependencies:
-      '@angular/common': '>=14.0.0'
-      '@angular/core': '>=14.0.0'
-      rxjs: '>=6.0.0'
-    dependencies:
-      '@angular/common': 15.1.5_bj7gay3f2iqhd2jhj4xbvfa7uq
-      '@angular/core': 15.1.5_rxjs@7.8.0+zone.js@0.12.0
-      highlight.js: 11.7.0
-      highlightjs-line-numbers.js: 2.8.0
-      rxjs: 7.8.0
-      tslib: 2.5.0
-    dev: false
 
   /ngx-monaco-editor-v2/15.0.1_rgeysgndze7cnnc3qbejuntfhe:
     resolution: {integrity: sha512-QDj4XJO7o+XcYqbUrbIWhJdSRUnbAXltShsLveyVug+yw7ThS3DcE+FBuDUnAO67czTWta0paQPsyrH5DUfnkg==}
