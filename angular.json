@@ -29,7 +29,12 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/_redirects"
+              "src/_redirects",
+              { 
+                "glob": "**/*", 
+                "input": "node_modules/monaco-editor", 
+                "output": "/assets/monaco/" 
+              }
             ],
             "styles": [
               "src/styles.scss"
@@ -73,7 +78,11 @@
               "browserTarget": "just-angular:build:production"
             },
             "development": {
-              "browserTarget": "just-angular:build:development"
+              "browserTarget": "just-angular:build:development",
+              "headers": {
+                "Cross-Origin-Opener-Policy":"same-origin",
+                "Cross-Origin-Embedder-Policy":"require-corp"
+              }
             }
           },
           "defaultConfiguration": "development"

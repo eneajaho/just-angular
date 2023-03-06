@@ -1,16 +1,10 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HighlightModule } from 'ngx-highlightjs';
+import { ComponentIntro } from './lessons/component-intro/component-intro.component';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  standalone: true,
-  imports: [CommonModule, HighlightModule]
+    selector: 'app-root',
+    template: `<app-component-intro />`,
+    standalone: true,
+    imports: [ComponentIntro]
 })
-export class AppComponent {
-  title = 'just-angular';
-
-  helloWorldCode = import('./source-code/hello-world').then(m => m.default);
-}
+export class AppComponent {}

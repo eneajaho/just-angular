@@ -13,6 +13,7 @@ specifiers:
   '@angular/platform-browser-dynamic': ^15.1.0
   '@angular/router': ^15.1.0
   '@types/jasmine': ~4.3.0
+  '@webcontainer/api': ^1.0.2
   highlight.js: ^11.7.0
   jasmine-core: ~4.5.0
   karma: ~6.4.0
@@ -20,7 +21,9 @@ specifiers:
   karma-coverage: ~2.2.0
   karma-jasmine: ~5.1.0
   karma-jasmine-html-reporter: ~2.0.0
+  monaco-editor: ^0.36.1
   ngx-highlightjs: ^8.0.0
+  ngx-monaco-editor-v2: ^15.0.1
   rxjs: ~7.8.0
   tailwindcss: ^3.2.7
   tslib: ^2.3.0
@@ -36,8 +39,11 @@ dependencies:
   '@angular/platform-browser': 15.1.5_s7kwnqxnlkypgp4vtemlnxkbmi
   '@angular/platform-browser-dynamic': 15.1.5_pzachiwybhx467gapqhrlestmm
   '@angular/router': 15.1.5_yndgxvmaauschrcdo656cxz5sy
+  '@webcontainer/api': 1.0.2
   highlight.js: 11.7.0
+  monaco-editor: 0.36.1
   ngx-highlightjs: 8.0.0_pq7so2lxnramwprfbopfupfyze
+  ngx-monaco-editor-v2: 15.0.1_rgeysgndze7cnnc3qbejuntfhe
   rxjs: 7.8.0
   tslib: 2.5.0
   zone.js: 0.12.0
@@ -2278,6 +2284,10 @@ packages:
       '@webassemblyjs/ast': 1.11.1
       '@xtuc/long': 4.2.2
     dev: true
+
+  /@webcontainer/api/1.0.2:
+    resolution: {integrity: sha512-JyJSE/EuNmbv2l9M+GE254Z/s0A9Hma8gtc71co6ZznpCr1UyB70556xZapbd8fWcjOTb1sLGb0GnRx9Ofp9sA==}
+    dev: false
 
   /@xtuc/ieee754/1.2.0:
     resolution: {integrity: sha512-DX8nKgqcGwsc0eJSqYt5lwP4DH5FlHnmuWWBRy7X0NcaGR0ZtuyeESgMwTYVEtxmsNGY+qit4QYT/MIYTOTPeA==}
@@ -4834,6 +4844,10 @@ packages:
     hasBin: true
     dev: true
 
+  /monaco-editor/0.36.1:
+    resolution: {integrity: sha512-/CaclMHKQ3A6rnzBzOADfwdSJ25BFoFT0Emxsc4zYVyav5SkK9iA6lEtIeuN/oRYbwPgviJT+t3l+sjFa28jYg==}
+    dev: false
+
   /ms/2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
     dev: true
@@ -4899,6 +4913,19 @@ packages:
       highlight.js: 11.7.0
       highlightjs-line-numbers.js: 2.8.0
       rxjs: 7.8.0
+      tslib: 2.5.0
+    dev: false
+
+  /ngx-monaco-editor-v2/15.0.1_rgeysgndze7cnnc3qbejuntfhe:
+    resolution: {integrity: sha512-QDj4XJO7o+XcYqbUrbIWhJdSRUnbAXltShsLveyVug+yw7ThS3DcE+FBuDUnAO67czTWta0paQPsyrH5DUfnkg==}
+    peerDependencies:
+      '@angular/common': ^15.0.2
+      '@angular/core': ^15.0.2
+      monaco-editor: ^0.34.1
+    dependencies:
+      '@angular/common': 15.1.5_bj7gay3f2iqhd2jhj4xbvfa7uq
+      '@angular/core': 15.1.5_rxjs@7.8.0+zone.js@0.12.0
+      monaco-editor: 0.36.1
       tslib: 2.5.0
     dev: false
 
