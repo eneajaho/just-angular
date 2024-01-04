@@ -30,12 +30,14 @@ yarn-error.log
 
 # Miscellaneous
 /.angular/cache
+/.nx/cache
 .sass-cache/
 /connect.lock
 /coverage
 /libpeerconnection.log
 testem.log
 /typings
+/.npmrc
 
 # System files
 .DS_Store

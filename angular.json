@@ -1,117 +1,52 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
-  "cli": {
-    "packageManager": "pnpm"
-  },
   "newProjectRoot": "projects",
   "projects": {
-    "just-angular": {
+    "blog": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "blog",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@analogjs/platform:vite",
           "options": {
-            "outputPath": "dist/just-angular",
-            "index": "src/index.html",
+            "configFile": "vite.config.ts",
             "main": "src/main.ts",
-            "polyfills": ["zone.js"],
-            "tsConfig": "tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/_redirects",
-              "src/_headers",
-              { 
-                "glob": "**/*", 
-                "input": "node_modules/monaco-editor", 
-                "output": "/assets/monaco/" 
-              }
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": [],
-            "allowedCommonJsDependencies": [
-              "highlight.js"
-            ]
+            "outputPath": "dist/client",
+            "tsConfig": "tsconfig.app.json"
           },
+          "defaultConfiguration": "production",
           "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
-              "outputHashing": "all"
-            },
             "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "mode": "development"
+            },
+            "production": {
+              "sourcemap": false,
+              "mode": "production"
             }
-          },
-          "defaultConfiguration": "production"
+          }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "configurations": {
-            "production": {
-              "browserTarget": "just-angular:build:production"
-            },
-            "development": {
-              "browserTarget": "just-angular:build:development",
-              "headers": {
-                "Cross-Origin-Opener-Policy":"same-origin",
-                "Cross-Origin-Embedder-Policy":"require-corp"
-              }
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "builder": "@analogjs/platform:vite-dev-server",
+          "defaultConfiguration": "development",
           "options": {
-            "browserTarget": "just-angular:build"
+            "buildTarget": "blog:build",
+            "port": 5173
+          },
+          "configurations": {
+            "development": {
+              "buildTarget": "blog:build:development",
+              "hmr": true
+            },
+            "production": {
+              "buildTarget": "blog:build:production"
+            }
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": []
-          }
+          "builder": "@analogjs/platform:vitest"
         }
       }
     }
