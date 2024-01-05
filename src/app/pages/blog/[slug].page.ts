@@ -43,6 +43,13 @@ import PostAttributes from '../../post-attributes';
           margin-bottom: 0.5em;
         }
 
+        h3 {
+          font-size: 1.4em;
+          line-height: 1.1;
+          margin-top: 1em;
+          margin-bottom: 0.5em;
+        }
+
         blockquote {
           font-size: 1em;
           font-style: inherit;
