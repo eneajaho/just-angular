@@ -6,10 +6,11 @@ import { provideContent, withMarkdownRenderer } from '@analogjs/content';
 
 import 'prismjs/components/prism-diff';
 import 'prismjs/plugins/diff-highlight/prism-diff-highlight';
+import { withViewTransitions } from '@angular/router';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideFileRouter(),
+    provideFileRouter(withViewTransitions()),
     provideHttpClient(withFetch()),
     provideClientHydration(),
     provideContent(withMarkdownRenderer()),

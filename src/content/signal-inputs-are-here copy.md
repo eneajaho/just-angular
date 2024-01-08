@@ -3,6 +3,8 @@ title: Signal Inputs are here to change the game 🎯
 slug: signal-inputs-are-here
 description: What you have been waiting for! 🚀
 coverImage: https://images.unsplash.com/photo-1493612276216-ee3925520721?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80
+tags: ['Signals', 'Inputs', 'Angular']
+publishedAt: Jan 10 2024
 ---
 
 # Signal Inputs are here to change the game 🎯
