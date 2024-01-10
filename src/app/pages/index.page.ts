@@ -1,5 +1,6 @@
 import { RouteMeta } from '@analogjs/router';
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 export const routeMeta: RouteMeta = {
   title: 'JustAngular - justangular.com',
@@ -285,5 +286,6 @@ export const routeMeta: RouteMeta = {
 
     <!-- <app-from-blog /> -->
   `,
+  imports: [RouterLink],
 })
 export default class HomePageComponent {}
