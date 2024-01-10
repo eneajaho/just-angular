@@ -8,7 +8,7 @@ tags: ['Signals', 'Inputs', 'Angular']
 publishedAt: Jan 10 2024
 ---
 
-# Signal Inputs are here to change the game 🎯
+# Angular Signal Inputs are here to change the game 🎲
 
 Angular has gone through a lot of changes in the past few years. Since the release of 2.0 Angular embraced dectorators and used them to annotate parts of code that should be processed by Angular. We have `Component`, `Directive`, `Pipe`, `Injectable` decorators for classes etc. We also have `@Input` and `@Output` decorators that are used to define inputs and outputs of a component (public API of a component).
 

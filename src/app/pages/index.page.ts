@@ -20,10 +20,9 @@ export const routeMeta: RouteMeta = {
       property: 'og:description',
       content: `The blog you would like to read if you are a beginner or an expert in Angular. It is a comprehensive resource designed to cater to all levels of proficiency, ensuring a seamless learning experience for newcomers and seasoned developers alike.`,
     },
-    {
-      property: 'og:image',
-      content: '/justangular.png',
-    },
+    { property: 'og:image', content: '/justangular.png' },
+    { property: 'twitter:creator', content: '@Enea_Jahollari' },
+    { property: 'twitter:image', content: '/justangular.png' },
   ],
 };
 

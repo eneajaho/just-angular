@@ -25,6 +25,8 @@ export class SeoService {
       // Twitter Card
       { name: 'twitter:card', content: description },
       { name: 'twitter:site', content: '@Enea_Jahollari' },
+      { name: 'twitter:creator', content: '@Enea_Jahollari' },
+      { name: 'twitter:image', content: image },
     ]);
   }
 }
