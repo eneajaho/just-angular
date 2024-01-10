@@ -35,6 +35,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class Navbar {
   navItems = [
     { url: '/blog', label: 'Blog' },
-    { url: '/about', label: 'About' },
+    // { url: '/about', label: 'About' },
   ];
 }

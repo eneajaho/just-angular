@@ -8,7 +8,12 @@ import { Breadcrumbs } from '../components/breadcrumb.component';
       <app-breadcrumbs [breadcrumbs]="[{ url: '/about', label: 'About' }]" />
     </div>
 
-    About me
+    <div class="grid place-items-center mt-10 text-2xl">
+      <p class="text-gray-400 mb-[100px]"></p>
+
+      Brought to you by
+      <a href="https://x.com/Enea_Jahollari">Enea Jahollari</a>
+    </div>
   `,
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,

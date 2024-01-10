@@ -8,5 +8,5 @@
     "types": ["node", "vitest/globals"]
   },
   "files": ["src/test.ts"],
-  "include": ["src/**/*.spec.ts", "src/**/*.ts"]
+  "include": ["src/**/*.spec.ts", "src/**/*.ts", "src/app/components/breadcrumb.ng", "src/app/components/breadcrumb.component.nd"]
 }

@@ -3,6 +3,11 @@ import { injectContentFiles } from '@analogjs/content';
 import PostAttributes from '../../post-attributes';
 import { RouterLink } from '@angular/router';
 import { Breadcrumbs } from '../../components/breadcrumb.component';
+import { RouteMeta } from '@analogjs/router';
+
+export const routeMeta: RouteMeta = {
+  title: 'All Blog Posts - justangular.com',
+};
 
 @Component({
   selector: 'app-blog',
@@ -30,16 +35,17 @@ import { Breadcrumbs } from '../../components/breadcrumb.component';
               <div
                 class="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0"
               >
-                <img
-                  [routerLink]="[post.attributes.slug]"
-                  [src]="post.attributes.coverImage"
-                  [alt]="post.attributes.description"
-                  style="view-transition-name: {{ post.attributes.slug }}"
-                  class="cursor-pointer absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover"
-                />
                 <div
-                  class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10"
-                ></div>
+                  [routerLink]="[post.attributes.slug]"
+                  class="absolute inset-0 rounded-2xl ring-1 ring-inset cursor-pointer ring-gray-900/10"
+                >
+                  <img
+                    [src]="post.attributes.coverImage"
+                    [alt]="post.attributes.description"
+                    style="view-transition-name: {{ post.attributes.slug }}"
+                    class="cursor-pointer absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover"
+                  />
+                </div>
               </div>
               <div>
                 <div class="flex items-center gap-x-4 text-xs">

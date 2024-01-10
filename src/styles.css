@@ -85,6 +85,12 @@ button:focus-visible {
  * Ported for PrismJS by Zane Hitchcoxc (@zwhitchcox) and Gabriel Ramos (@gabrieluizramos)
  */
 
+code {
+  background: #2e3440;
+  border-radius: 5px;
+  padding: 2px 5px;
+}
+
 code[class*="language-"],
 pre[class*="language-"] {
   color: #f8f8f2;
@@ -202,4 +208,3 @@ pre[class*="language-"] {
 .token.entity {
   cursor: help;
 }
-

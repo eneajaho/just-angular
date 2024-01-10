@@ -1,12 +1,31 @@
 import { RouteMeta } from '@analogjs/router';
-
-// export const routeMeta: RouteMeta = {
-//   redirectTo: '/blog',
-//   pathMatch: 'full',
-// };
-
 import { Component } from '@angular/core';
-import { FromBlogComponent } from '../components/from-the-blog.component';
+
+export const routeMeta: RouteMeta = {
+  title: 'JustAngular - justangular.com',
+  meta: [
+    {
+      name: 'description',
+      content: `The blog you would like to read if you are a beginner or an expert in Angular. It is a comprehensive resource designed to cater to all levels of proficiency, ensuring a seamless learning experience for newcomers and seasoned developers alike.`,
+    },
+    {
+      name: 'author',
+      content: 'Enea Jahollari',
+    },
+    {
+      property: 'og:title',
+      content: 'justangular.com',
+    },
+    {
+      property: 'og:description',
+      content: `The blog you would like to read if you are a beginner or an expert in Angular. It is a comprehensive resource designed to cater to all levels of proficiency, ensuring a seamless learning experience for newcomers and seasoned developers alike.`,
+    },
+    {
+      property: 'og:image',
+      content: '/justangular.png',
+    },
+  ],
+};
 
 @Component({
   standalone: true,
@@ -265,8 +284,7 @@ import { FromBlogComponent } from '../components/from-the-blog.component';
       </div>
     </div>
 
-    <app-from-blog />
+    <!-- <app-from-blog /> -->
   `,
-  imports: [FromBlogComponent],
 })
 export default class HomePageComponent {}

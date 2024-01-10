@@ -21,6 +21,11 @@ export default defineConfig(({ mode }) => ({
           '/blog/signals-computed-from',
         ],
       },
+      vite: {
+        experimental: {
+          dangerouslySupportNgFormat: true,
+        },
+      },
     }),
   ],
   test: {

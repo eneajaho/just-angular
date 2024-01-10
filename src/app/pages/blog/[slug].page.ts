@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import {
   ContentFile,
   injectContent,
@@ -6,14 +6,11 @@ import {
 } from '@analogjs/content';
 import { AsyncPipe } from '@angular/common';
 
-import { computedPrevious } from 'ngxtension/computed-previous';
-
 import PostAttributes from '../../post-attributes';
-import { MarkdownEditorComponent } from './editor.component';
 import { take } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { Breadcrumbs } from '../../components/breadcrumb.component';
 import { RouterLink } from '@angular/router';
+import { SeoService } from '../../seo.service';
 
 @Component({
   selector: 'app-blog-post',
@@ -119,8 +116,9 @@ import { RouterLink } from '@angular/router';
         h3 {
           font-size: 1.2em;
           line-height: 1.1;
-          margin-top: 1em;
+          margin-top: 1.5em;
           margin-bottom: 0.5em;
+          font-weight: 600;
         }
 
         blockquote {
@@ -168,14 +166,11 @@ import { RouterLink } from '@angular/router';
   ],
   imports: [AsyncPipe, MarkdownComponent, RouterLink, Breadcrumbs],
 })
-export default class HomeComponent {
-  isDev = import.meta.env.MODE === 'development';
-  isBrowser = import.meta.env.SSR === false;
+export default class Blogpost {
+  // isDev = import.meta.env.MODE === 'development';
+  // isBrowser = import.meta.env.SSR === false;
 
-  http = inject(HttpClient);
-
-  cdr = inject(ChangeDetectorRef);
-
+  private seoService = inject(SeoService);
   readonly post$ = injectContent<PostAttributes>('slug');
 
   post = signal<
@@ -192,6 +187,12 @@ export default class HomeComponent {
     this.post$.pipe(take(1)).subscribe((post) => {
       this.post.set(post);
       this.content.set(post.content || '');
+
+      this.seoService.generateTags({
+        description: post.attributes.description,
+        image: post.attributes.coverImage,
+        title: post.attributes.title,
+      });
     });
   }
 
