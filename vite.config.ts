@@ -20,6 +20,9 @@ export default defineConfig(({ mode }) => ({
           '/blog',
           '/blog/signal-inputs-are-here-to-change-the-game',
         ],
+        sitemap: {
+          host: 'https://justangular.com/',
+        },
         postRenderingHooks: [
           async (route) => {
             const gTag = `
