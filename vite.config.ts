@@ -16,9 +16,24 @@ export default defineConfig(({ mode }) => ({
     analog({
       prerender: {
         routes: [
+          '/',
           '/blog',
-          '/blog/2022-12-27-my-first-post',
-          '/blog/signals-computed-from',
+          '/blog/signal-inputs-are-here-to-change-the-game',
+        ],
+        postRenderingHooks: [
+          async (route) => {
+            const gTag = `
+            <!-- Google tag (gtag.js) -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=G-9RYZZ33YWW"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-9RYZZ33YWW');
+            </script>
+            `;
+            route.contents = route.contents?.concat(gTag);
+          },
         ],
       },
       vite: {
