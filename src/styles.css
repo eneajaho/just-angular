@@ -91,6 +91,10 @@ code {
   padding: 2px 5px;
 }
 
+pre {
+  overflow-x: hidden;
+}
+
 code[class*="language-"],
 pre[class*="language-"] {
   color: #f8f8f2;

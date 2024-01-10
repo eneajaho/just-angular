@@ -83,7 +83,7 @@ import { SeoService } from '../../seo.service';
       :host {
         .cover-image {
           width: 90vw;
-          height: fit-content;
+          max-width: 100%;
           object-fit: cover;
           object-position: center;
           margin-bottom: 2rem;
@@ -94,7 +94,8 @@ import { SeoService } from '../../seo.service';
 
         article {
           padding: 2rem 0;
-          width: 800px;
+          min-width: 200px;
+          max-width: 800px;
           font-size: 18px;
           z-index: 2;
         }
