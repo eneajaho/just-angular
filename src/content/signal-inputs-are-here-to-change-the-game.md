@@ -485,6 +485,20 @@ favoriteImages = computedFrom(
 );
 ```
 
+## Migrating to Signal Inputs
+You can go over all your inputs and start refactoring every input and its references one by one, or you can use some migration schematics that handle most of the basic usage patterns for you.
+
+The [ngxtension](https://ngxtension.netlify.app) library publishes some schematics you can use in an Angular or Nx workspace.
+
+To use it you just have to run these two commands:
+
+```bash
+npm install ngxtension
+ng g ngxtension:convert-signal-inputs
+```
+
+Find more about it in the docs: [Ngxtension Signal Inputs Migration](https://ngxtension.netlify.app/utilities/migrations/signal-inputs-migration/) by [Chau Tran](https://twitter.com/Nartc1410) 🪄
+
 ## To sum up
 
 With signal inputs, we can just use the `input` function and we're good to go 🚀. We don't have to fight with `Typescript` anymore or have to understand all the inner workings of `Angular`. We can just use the `input` function to derive state directly from inputs, to manage API calls more easily, and if we don't want to maintain any glue code at all, `computedFrom` (ngxtension) is there to help us.
