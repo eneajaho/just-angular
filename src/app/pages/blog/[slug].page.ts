@@ -13,8 +13,10 @@ import {
 } from '@analogjs/content';
 import { AsyncPipe, NgStyle } from '@angular/common';
 
+import { injectDestroy } from 'ngxtension/inject-destroy';
+
 import PostAttributes from '../../post-attributes';
-import { take } from 'rxjs';
+import { take, takeUntil } from 'rxjs';
 import { Breadcrumbs } from '../../components/breadcrumb.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SeoService } from '../../seo.service';
@@ -142,8 +144,10 @@ export default class Blogpost {
 
   loading = signal(false);
 
+  private destroy$ = injectDestroy();
+
   ngOnInit() {
-    this.post$.pipe(take(1)).subscribe((post) => {
+    this.post$.pipe(takeUntil(this.destroy$)).subscribe((post) => {
       this.post.set(post);
       this.content.set(post.content || '');
 
