@@ -552,7 +552,7 @@ export class UserComponent {
 
   favoriteImages = computedAsync(() => 
     this.imagesService.getImages(this.user().favoriteImages), 
-    { initialValue: [], behavior: 'merge' }
+    { initialValue: [] }
   );
 }
 ```
