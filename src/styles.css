@@ -212,3 +212,15 @@ pre[class*="language-"] {
 .token.entity {
   cursor: help;
 }
+
+.img-alt {
+  text-align: center;
+  display: block;
+  font-size: 14px;
+  color: #c9c9c9;
+}
+
+
+hr {
+  margin: 50px 0;
+}

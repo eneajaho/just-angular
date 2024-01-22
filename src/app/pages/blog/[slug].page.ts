@@ -1,7 +1,14 @@
-import { Component, ViewEncapsulation, inject, signal } from '@angular/core';
+import {
+  Component,
+  ViewEncapsulation,
+  computed,
+  inject,
+  signal,
+} from '@angular/core';
 import {
   ContentFile,
   injectContent,
+  injectContentFiles,
   MarkdownComponent,
 } from '@analogjs/content';
 import { AsyncPipe, NgStyle } from '@angular/common';
@@ -11,7 +18,7 @@ import { take } from 'rxjs';
 import { Breadcrumbs } from '../../components/breadcrumb.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SeoService } from '../../seo.service';
-import { PostTitles } from './post-titles.component';
+import { PreviousArticles } from './prev-articles.component';
 
 @Component({
   selector: 'app-blog-post',
@@ -49,13 +56,15 @@ import { PostTitles } from './post-titles.component';
           }
         </div>
         <analog-markdown [content]="content()" />
-        <div
+        <!-- <div
           class="sticky top-0 sm:hidden lg:block"
           style="position: absolute; right: 50px; top: 25px"
         >
           <app-post-titles ngSkipHydration />
-        </div>
+        </div> -->
       </article>
+
+      <app-previous-articles [posts]="previousArticles()" />
     </div>
 
     }
@@ -93,23 +102,43 @@ import { PostTitles } from './post-titles.component';
     Breadcrumbs,
     NgStyle,
     RouterLinkActive,
-    PostTitles,
+    // PostTitles,
+    PreviousArticles,
   ],
 })
 export default class Blogpost {
-  // isDev = import.meta.env.MODE === 'development';
-  // isBrowser = import.meta.env.SSR === false;
-
   private seoService = inject(SeoService);
   readonly post$ = injectContent<PostAttributes>('slug');
+
+  readonly allArticles = injectContentFiles<PostAttributes>()
+    .filter((article) => new Date() > new Date(article.attributes.publishedAt))
+    .sort((a1, a2) =>
+      a1.attributes.publishedAt > a2.attributes.publishedAt ? -1 : 1
+    );
+
+  previousArticles = computed(() => {
+    const post = this.post();
+    if (!post) return [];
+
+    // return only 2 last articles before the current one based on the published date
+    return this.allArticles
+      .filter((article) => {
+        return (
+          post.attributes.title !== article.attributes.title &&
+          new Date() > new Date(article.attributes.publishedAt)
+        );
+      })
+      .sort((a1, a2) =>
+        a1.attributes.publishedAt > a2.attributes.publishedAt ? -1 : 1
+      )
+      .slice(0, 2);
+  });
 
   post = signal<
     ContentFile<PostAttributes | Record<string, never>> | undefined
   >(undefined);
 
   content = signal<string>('');
-
-  // previousContent = computedPrevious(this.content);
 
   loading = signal(false);
 
@@ -126,16 +155,16 @@ export default class Blogpost {
     });
   }
 
+  // isDev = import.meta.env.MODE === 'development';
+  // isBrowser = import.meta.env.SSR === false;
   // hasChanges = signal(false);
-
+  // previousContent = computedPrevious(this.content);
   // lastUpdate?: ReturnType<typeof setTimeout>;
 
   // updateContent($event: string, markdownRenderer: MarkdownComponent) {
   //   this.content.set($event);
   //   this.hasChanges.set(true);
-
   //   this.loading.set(true);
-
   //   let times = 0;
   //   let interval = setInterval(() => {
   //     if (times > 3) {
@@ -147,7 +176,6 @@ export default class Blogpost {
   //     this.loading.set(false);
   //   }, 1000);
   // }
-
   // updateMarkdownFile() {
   //   const post = this.post();
   //   if (post) {

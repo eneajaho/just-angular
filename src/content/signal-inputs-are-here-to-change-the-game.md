@@ -5,7 +5,7 @@ description: Angular has gone through a lot of changes in the past few years. Si
 coverImage: '/signal-inputs1.png'
 coverImageAlt: 'Photo by Erik Mclean on Unsplash'
 tags: ['Signals', 'Inputs', 'Angular']
-publishedAt: Jan 10 2024
+publishedAt: '2024-01-10T00:00:00.000Z'
 ---
 
 # Angular Signal Inputs are here to change the game 🎲

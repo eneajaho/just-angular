@@ -2,6 +2,7 @@
 
 import { defineConfig } from 'vite';
 import analog from '@analogjs/platform';
+import { getProductionBlogPosts } from './vite-blog.utils';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
@@ -15,11 +16,8 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     analog({
       prerender: {
-        routes: [
-          '/',
-          '/blog',
-          '/blog/signal-inputs-are-here-to-change-the-game',
-        ],
+        discover: true,
+        routes: ['/', '/blog', ...getProductionBlogPosts()],
         sitemap: {
           host: 'https://justangular.com/',
         },

@@ -4,6 +4,7 @@ import PostAttributes from '../../post-attributes';
 import { RouterLink } from '@angular/router';
 import { Breadcrumbs } from '../../components/breadcrumb.component';
 import { RouteMeta } from '@analogjs/router';
+import { DatePipe } from '@angular/common';
 
 export const routeMeta: RouteMeta = {
   title: 'All Blog Posts - justangular.com',
@@ -50,7 +51,7 @@ export const routeMeta: RouteMeta = {
               <div>
                 <div class="flex items-center gap-x-4 text-xs">
                   <time datetime="2020-03-16" class="text-gray-400">
-                    {{ post.attributes.publishedAt }}
+                    {{ post.attributes.publishedAt | date }}
                   </time>
                 </div>
                 <div class="group relative max-w-xl">
@@ -89,8 +90,12 @@ export const routeMeta: RouteMeta = {
       </div>
     </div>
   `,
-  imports: [RouterLink, Breadcrumbs],
+  imports: [RouterLink, Breadcrumbs, DatePipe],
 })
 export default class HomeComponent {
-  readonly posts = injectContentFiles<PostAttributes>();
+  readonly posts = injectContentFiles<PostAttributes>()
+    .filter((article) => new Date() > new Date(article.attributes.publishedAt))
+    .sort((a1, a2) =>
+      a1.attributes.publishedAt > a2.attributes.publishedAt ? -1 : 1
+    );
 }
