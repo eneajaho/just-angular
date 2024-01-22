@@ -10,7 +10,7 @@ publishedAt: '2024-01-22T00:00:00.000Z'
 
 # Building ComputedAsync for Signals in Angular
 
-## Little bit of history
+## A little bit of history
 Handling async operations in Angular has always been the job of Observables. Observables are a great way to handle async operations. But with the introduction of Signals in Angular, everyone is trying to use Signals for everything, but Signals are not meant to handle async operations. Signals are meant to handle value and not events. So, how do we handle async operations using Signals? Let's find out.
 
 ## Motivation
@@ -57,9 +57,9 @@ export class UserComponent {
 To sum up, here's what's happening in the above code:
 
 - We register an effect that will run whenever the `user` input changes.
-- Effect runs at least once by default, so it will make that initial API call.
-- Effect will run again whenever the `user` input changes.
-- Everytime the effect re-runs, the onCleanup function will call the callback function passed to it.
+- The effect runs at least once by default, so it will make that initial API call.
+- The effect will run again whenever the `user` input changes.
+- Every time the effect re-runs, the onCleanup function will call the callback function passed to it.
 - Our callback function will unsubscribe from the previous subscription. (So, it will behave like the `switchMap` operator in RxJS)
 - When the API call returns, we set the value of the `favoriteImages` signal.
 
@@ -317,15 +317,15 @@ Let's handle the TODOs in the above code.
 First, let's handle the normal value case. We just need to set the value of the `sourceValue` signal.
 
 ```ts
- effect(() => {
-    const value = computation(); // store the result of the computation
+effect(() => {
+  const value = computation(); // store the result of the computation
 
-    // handle the result if it's an observable or a promise or a normal value
-    if (isObservable(value) || isPromise(value)) {
-        // TODO: handle observable and promise
-    } else {
-        sourceValue.set(value);
-    }
+  // handle the result if it's an observable or a promise or a normal value
+  if (isObservable(value) || isPromise(value)) {
+      // TODO: handle observable and promise
+  } else {
+      sourceValue.set(value);
+  }
 });
 ```
 
@@ -496,7 +496,6 @@ export class UserComponent {
     fetch(`https://localhost/api/images/${this.user().favoriteImages}`).then(res => res.json()), 
     { initialValue: [], behavior: 'merge' }
   );
-
 }
 ```
 
@@ -562,8 +561,8 @@ export class UserComponent {
 
  🔨 Read more about the development of `computedAsync` [here](https://github.com/nartc/ngxtension-platform/pull/229).
 
-## Reviewed by: 
-- [Chau Tran 🧑🏻‍💻](https://twitter.com/Nartc1410)
+<!-- ## Reviewed by: 
+- [Chau Tran 🧑🏻‍💻](https://twitter.com/Nartc1410) -->
 
 # Thanks for reading!
 If this article was interesting and useful to you, and you want to learn more about Angular, support me by [buying me a coffee ☕️](https://ko-fi.com/eneajahollari) or follow me on X (formerly Twitter) [@Enea_Jahollari](https://twitter.com/Enea_Jahollari) where I tweet and blog a lot about `Angular` latest news, signals, videos, podcasts, updates, RFCs, pull requests and so much more. 💎
