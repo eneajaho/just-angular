@@ -67,9 +67,9 @@ import { PreviousArticles } from './prev-articles.component';
         </div> -->
       </article>
 
-      <app-previous-articles [posts]="previousArticles()" />
-
       <div class="giscus"></div>
+
+      <app-previous-articles [posts]="previousArticles()" />
     </div>
 
     }
