@@ -529,7 +529,7 @@ export class UserComponent {
 ```
 
 ## Use computedAsync from ngxtension
-The `computedAsync` function is available in the `ngxtension` library. You can install it using `npm` or `yarn`.
+The `computedAsync` function is available in the `ngxtension` library.
 
 ```bash
 npm install ngxtension
