@@ -1,5 +1,6 @@
 import {
   Component,
+  OnDestroy,
   ViewEncapsulation,
   computed,
   inject,
@@ -16,7 +17,7 @@ import { AsyncPipe, NgStyle } from '@angular/common';
 import { injectDestroy } from 'ngxtension/inject-destroy';
 
 import PostAttributes from '../../post-attributes';
-import { take, takeUntil } from 'rxjs';
+import { ReplaySubject, Subject, of, take, takeUntil } from 'rxjs';
 import { Breadcrumbs } from '../../components/breadcrumb.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SeoService } from '../../seo.service';
@@ -67,6 +68,8 @@ import { PreviousArticles } from './prev-articles.component';
       </article>
 
       <app-previous-articles [posts]="previousArticles()" />
+
+      <div class="giscus"></div>
     </div>
 
     }
@@ -108,9 +111,11 @@ import { PreviousArticles } from './prev-articles.component';
     PreviousArticles,
   ],
 })
-export default class Blogpost {
+export default class Blogpost implements OnDestroy {
   private seoService = inject(SeoService);
   readonly post$ = injectContent<PostAttributes>('slug');
+
+  private destroy$ = new Subject<void>();
 
   readonly allArticles = injectContentFiles<PostAttributes>()
     .filter((article) => new Date() > new Date(article.attributes.publishedAt))
@@ -144,8 +149,6 @@ export default class Blogpost {
 
   loading = signal(false);
 
-  private destroy$ = injectDestroy();
-
   ngOnInit() {
     this.post$.pipe(takeUntil(this.destroy$)).subscribe((post) => {
       this.post.set(post);
@@ -157,6 +160,11 @@ export default class Blogpost {
         title: post.attributes.title,
       });
     });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   // isDev = import.meta.env.MODE === 'development';
