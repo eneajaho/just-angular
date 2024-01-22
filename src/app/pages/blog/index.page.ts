@@ -70,7 +70,7 @@ export const routeMeta: RouteMeta = {
                     {{ post.attributes.description }}
                   </p>
 
-                  <div class="flex space-x-2">
+                  <div class="flex space-x-2 overflow-x-scroll">
                     @for (tag of post.attributes.tags; track tag) {
                     <a
                       [routerLink]="[]"

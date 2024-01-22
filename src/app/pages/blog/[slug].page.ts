@@ -46,7 +46,7 @@ import { PreviousArticles } from './prev-articles.component';
 
     <div class="w-full grid justify-center relative" style="max-width: 100vw">
       <article>
-        <div class="flex space-x-4">
+        <div class="flex space-x-4 overflow-x-scroll">
           @for (tag of post.attributes.tags; track tag) {
           <a
             [routerLink]="[]"
