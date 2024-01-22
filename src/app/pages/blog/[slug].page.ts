@@ -4,13 +4,14 @@ import {
   injectContent,
   MarkdownComponent,
 } from '@analogjs/content';
-import { AsyncPipe } from '@angular/common';
+import { AsyncPipe, NgStyle } from '@angular/common';
 
 import PostAttributes from '../../post-attributes';
 import { take } from 'rxjs';
 import { Breadcrumbs } from '../../components/breadcrumb.component';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SeoService } from '../../seo.service';
+import { PostTitles } from './post-titles.component';
 
 @Component({
   selector: 'app-blog-post',
@@ -34,7 +35,7 @@ import { SeoService } from '../../seo.service';
       [alt]="post.attributes.description"
     />
 
-    <div class="w-full grid justify-center" style="max-width: 100vw;">
+    <div class="w-full grid justify-center relative" style="max-width: 100vw">
       <article>
         <div class="flex space-x-4">
           @for (tag of post.attributes.tags; track tag) {
@@ -47,8 +48,13 @@ import { SeoService } from '../../seo.service';
           </a>
           }
         </div>
-
         <analog-markdown [content]="content()" />
+        <div
+          class="sticky top-0 sm:hidden lg:block"
+          style="position: absolute; right: 50px; top: 25px"
+        >
+          <app-post-titles ngSkipHydration />
+        </div>
       </article>
     </div>
 
@@ -78,93 +84,17 @@ import { SeoService } from '../../seo.service';
     </div>
     } @else { -->
   `,
-  styles: [
-    `
-      .cover-image {
-        width: 90vw;
-        max-width: 100%;
-        object-fit: cover;
-        object-position: center;
-        margin-bottom: 2rem;
-        border-radius: 10px;
-        margin: 0 auto;
-        margin-top: 10px;
-      }
-
-      article {
-        padding: 2rem 0;
-        min-width: 200px;
-        max-width: 800px;
-        font-size: 18px;
-        z-index: 2;
-      }
-
-      h1 {
-        font-size: 2em;
-        line-height: 1.1;
-        margin-top: 1em;
-        margin-bottom: 0.5em;
-      }
-
-      h2 {
-        font-size: 1.6em;
-        line-height: 1.1;
-        margin-top: 1em;
-        margin-bottom: 0.5em;
-      }
-
-      h3 {
-        font-size: 1.2em;
-        line-height: 1.1;
-        margin-top: 1.5em;
-        margin-bottom: 0.5em;
-        font-weight: 600;
-      }
-
-      blockquote {
-        font-size: 1.2em;
-        font-style: inherit;
-
-        margin-top: 1em;
-        margin-bottom: 1em;
-        padding-left: 1em;
-        border-left: 4px solid #646cff;
-      }
-
-      p {
-        line-height: 32px;
-        margin-top: 2em;
-      }
-
-      @media (max-width: 768px) {
-        article {
-          padding: 1rem 0;
-          margin-top: 0;
-          width: 90vw;
-          margin-top: 0;
-          font-size: 16px;
-        }
-
-        h1 {
-          font-size: 1.5em;
-        }
-
-        h2 {
-          font-size: 1.2em;
-        }
-
-        h3 {
-          font-size: 1em;
-        }
-
-        blockquote {
-          font-size: 1em;
-        }
-      }
-    `,
-  ],
+  styleUrl: './slug.component.scss',
   encapsulation: ViewEncapsulation.None,
-  imports: [AsyncPipe, MarkdownComponent, RouterLink, Breadcrumbs],
+  imports: [
+    AsyncPipe,
+    MarkdownComponent,
+    RouterLink,
+    Breadcrumbs,
+    NgStyle,
+    RouterLinkActive,
+    PostTitles,
+  ],
 })
 export default class Blogpost {
   // isDev = import.meta.env.MODE === 'development';

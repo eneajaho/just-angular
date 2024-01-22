@@ -6,11 +6,14 @@ import { provideContent, withMarkdownRenderer } from '@analogjs/content';
 
 import 'prismjs/components/prism-diff';
 import 'prismjs/plugins/diff-highlight/prism-diff-highlight';
-import { withViewTransitions } from '@angular/router';
+import {withInMemoryScrolling, withViewTransitions} from '@angular/router';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideFileRouter(withViewTransitions()),
+    provideFileRouter(
+      withViewTransitions(),
+      withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: "enabled" })
+    ),
     provideHttpClient(withFetch()),
     provideClientHydration(),
     provideContent(withMarkdownRenderer()),
