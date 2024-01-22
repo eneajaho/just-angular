@@ -224,3 +224,16 @@ pre[class*="language-"] {
 hr {
   margin: 50px 0;
 }
+
+.analog-markdown ul {
+  list-style: disc;
+  margin-left: 20px;
+}
+
+.analog-markdown li {
+  line-height: 24px;
+}
+
+.analog-markdown p {
+  margin-top: 1.5em;
+}
