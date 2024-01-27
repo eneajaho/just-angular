@@ -43,6 +43,7 @@ export const routeMeta: RouteMeta = {
                   <img
                     [src]="post.attributes.coverImage"
                     [alt]="post.attributes.description"
+                    loading="lazy"
                     style="view-transition-name: {{ post.attributes.slug }}"
                     class="cursor-pointer absolute inset-0 h-full w-full rounded-2xl bg-gray-50 object-cover"
                   />
