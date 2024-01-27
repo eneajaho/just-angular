@@ -14,14 +14,13 @@ import {
 } from '@analogjs/content';
 import { AsyncPipe, NgStyle } from '@angular/common';
 
-import { injectDestroy } from 'ngxtension/inject-destroy';
-
 import PostAttributes from '../../post-attributes';
-import { ReplaySubject, Subject, of, take, takeUntil } from 'rxjs';
+import {  Subject, takeUntil } from 'rxjs';
 import { Breadcrumbs } from '../../components/breadcrumb.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SeoService } from '../../seo.service';
 import { PreviousArticles } from './prev-articles.component';
+import { LinkService } from '../../head-link.service';
 
 @Component({
   selector: 'app-blog-post',
@@ -110,9 +109,11 @@ import { PreviousArticles } from './prev-articles.component';
     // PostTitles,
     PreviousArticles,
   ],
+  providers: [LinkService]
 })
 export default class Blogpost implements OnDestroy {
   private seoService = inject(SeoService);
+  private linkService = inject(LinkService);
   readonly post$ = injectContent<PostAttributes>('slug');
 
   private destroy$ = new Subject<void>();
@@ -159,12 +160,19 @@ export default class Blogpost implements OnDestroy {
         image: post.attributes.coverImage,
         title: post.attributes.title,
       });
+
+      if (post.attributes.canonicalUrl) {
+        this.linkService.addTag( { rel: 'canonical', href: post.attributes.canonicalUrl, pageId: post.slug } );
+      } else {
+        this.linkService.removeLinks();
+      }
     });
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+    this.linkService.removeLinks();
   }
 
   // isDev = import.meta.env.MODE === 'development';

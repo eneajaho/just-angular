@@ -6,5 +6,6 @@ export default interface PostAttributes {
   coverImageAlt: string;
   tags: string[];
   publishedAt: string;
+  canonicalUrl: string;
   author: string;
 }

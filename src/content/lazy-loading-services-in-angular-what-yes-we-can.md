@@ -5,6 +5,7 @@ description: We’re used to lazy loading modules or components in Angular. But 
 coverImage: '/lazy-loading-services-in-angular-what-yes-we-can.webp'
 coverImageAlt: 'Lazy loading services in Angular. What?! Yes, we can.'
 tags: [ 'Angular', 'LazyLoading', 'Services', 'Injector', 'DependencyInjection' ]
+canonicalUrl: https://push-based.io/article/lazy-loading-services-in-angular-what-yes-we-can
 publishedAt: '2023-04-26T00:00:00.000Z'
 ---
 
