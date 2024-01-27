@@ -46,7 +46,7 @@ import { LinkService } from '../../head-link.service';
 
     <div class="w-full grid justify-center relative" style="max-width: 100vw">
       <article>
-        <div class="flex space-x-4 overflow-x-auto">
+        <!-- <div class="flex space-x-4 overflow-x-auto">
           @for (tag of post.attributes.tags; track tag) {
           <a
             [routerLink]="[]"
@@ -56,7 +56,7 @@ import { LinkService } from '../../head-link.service';
             {{ tag }}
           </a>
           }
-        </div>
+        </div> -->
         <analog-markdown [content]="content()" />
         <!-- <div
           class="sticky top-0 sm:hidden lg:block"

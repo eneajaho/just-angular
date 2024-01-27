@@ -70,7 +70,7 @@ export const routeMeta: RouteMeta = {
                   <p class="my-5 text-sm leading-6 text-gray-300">
                     {{ post.attributes.description }}
                   </p>
-
+<!-- 
                   <div class="flex space-x-2 overflow-x-scroll">
                     @for (tag of post.attributes.tags; track tag) {
                     <a
@@ -81,7 +81,7 @@ export const routeMeta: RouteMeta = {
                       {{ tag }}
                     </a>
                     }
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </article>
