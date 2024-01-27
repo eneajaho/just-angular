@@ -251,6 +251,6 @@ All thanks to a tweet from [Pawel Kozlowski](https://twitter.com/pkozlowski_os),
 You’re interested in **reactivity**, **signals**, **performance**, **change detection** an other cool stuff like that? Go give Pawel a follow on Twitter, he is exploring the space and tweeting cool stuff about it! There is also a video that explains Change Detection in 5 minutes that you can check here!
 
 
-# Thanks for reading!
+# Thanks for reading!
 If this article was interesting and useful to you, and you want to learn more about Angular, support me by [buying me a coffee ☕️](https://ko-fi.com/eneajahollari) or follow me on X (formerly Twitter) [@Enea_Jahollari](https://twitter.com/Enea_Jahollari) where I tweet and blog a lot about `Angular` latest news, signals, videos, podcasts, updates, RFCs, pull requests and so much more. 💎
 
