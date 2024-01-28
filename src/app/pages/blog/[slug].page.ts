@@ -57,7 +57,7 @@ import { LinkService } from '../../head-link.service';
           </a>
           }
         </div> -->
-        <analog-markdown [content]="content()" />
+        <analog-markdown [content]="post.content" />
         <!-- <div
           class="sticky top-0 sm:hidden lg:block"
           style="position: absolute; right: 50px; top: 25px"
@@ -146,14 +146,9 @@ export default class Blogpost implements OnDestroy {
     ContentFile<PostAttributes | Record<string, never>> | undefined
   >(undefined);
 
-  content = signal<string>('');
-
-  loading = signal(false);
-
-  ngOnInit() {
+  constructor() {
     this.post$.pipe(takeUntil(this.destroy$)).subscribe((post) => {
       this.post.set(post);
-      this.content.set(post.content || '');
 
       this.seoService.generateTags({
         description: post.attributes.description,
