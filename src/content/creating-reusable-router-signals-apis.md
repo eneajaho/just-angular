@@ -228,12 +228,12 @@ But, you don't need to do that, because it's already done for you in the `ngxten
 
 ## `injectQueryParams` and `injectParams`
 
-These two function are already published by the `ngxtension` library 
+These two functions are already published by the `ngxtension` library 
 
 - [injectParams](https://ngxtension.netlify.app/utilities/injectors/inject-params/)
 - [injectQueryParams](https://ngxtension.netlify.app/utilities/injectors/inject-query-params/)
 
-They are fully tested and already being used in multiple projects. 
+They are fully tested and are already being used in multiple projects. 
 
 ## Using `withComponentInputBinding()` with signal inputs 
 
@@ -241,7 +241,7 @@ In v17.1 Angular introduced signal inputs, and before that introduced the `withC
 
 I wrote about that function here: [Bind Route Info to Component Inputs](/blog/bind-route-info-to-component-inputs-new-router-feature).
 
-What's the difference between these function and signal inputs? Two things:
+What's the difference between these functions and signal inputs? Two things:
 
 ### Being explicit about where your data comes from 
 If you have an input called productId, do you expect it to come from a parent component or the route params?
