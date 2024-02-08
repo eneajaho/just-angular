@@ -153,14 +153,13 @@ export function injectParams(): Signal<Params> {
 }
 ```
 
-Params won't emit synchronously, so we need to provide an initial value for the signal. We can use the `snapshot` to grab the initial value.
+Params emit synchronously, so to enforce it, let's use `toSignal` with `requireSync` option.
 
 ```diff
 export function injectParams(): Signal<Params> {
   assertInInjectionContext(injectParams);
   const route = inject(ActivatedRoute);
-+  const params = route.snapshot.params || {};
-+  return toSignal(route.params, { initialValue: params });
++  return toSignal(route.params, { requireSync: true });
 }
 ```
 
@@ -172,16 +171,11 @@ export function injectParams<T>(
 ): Signal<Params | string | null> {
   assertInInjectionContext(injectParams);
   const route = inject(ActivatedRoute);
-  const params = route.snapshot.params || {};
   // Create a helper function to grab the value of the key
 +  const getParam = (params: Params) => key ? params?.[key] ?? null : params;
   // We need to map the params observable to the value of the key
--  return toSignal(route.params), {
-+  return toSignal(route.params.pipe(map(getParam)), {
-    // We need to map also the initial value to the value of the key
--    initialValue: params,
-+    initialValue: getParam(params),
-  });
+-  return toSignal(route.params, { requireSync: true });
++  return toSignal(route.params.pipe(map(getParam)), { requireSync: true });
 }
 ```
 
@@ -203,20 +197,15 @@ export function injectParams<T>(
 ): Signal<T | Params | string | null> {
   assertInInjectionContext(injectParams);
   const route = inject(ActivatedRoute);
-  const params = route.snapshot.params || {};
  
   if (typeof keyOrTransform === 'function') {
-    return toSignal(route.params.pipe(map(keyOrTransform)), {
-      initialValue: keyOrTransform(params),
-    });
+    return toSignal(route.params.pipe(map(keyOrTransform)), { requireSync: true });
   }
 
   const getParam = (params: Params) =>
     keyOrTransform ? params?.[keyOrTransform] ?? null : params;
 
-  return toSignal(route.params.pipe(map(getParam)), {
-    initialValue: getParam(params),
-  });
+  return toSignal(route.params.pipe(map(getParam)), { requireSync: true });
 }
 ```
 
