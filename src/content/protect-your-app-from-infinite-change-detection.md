@@ -59,7 +59,7 @@ export class AppComponent {
   constructor() {
     afterRender(() => {
       // This will cause an infinite change detection loop
-      this.count.update(x => x + 1);
+      this.count.update(x => x + 1); // changes infinitely
     });
   }
 }
@@ -81,7 +81,7 @@ export class AppComponent {
   constructor() {
     afterRender(() => {
       // This will not cause an infinite change detection loop
-      this.count.set(/* new value */); 
+      this.count.set(1); // changes only once 
     });
   }
 }
