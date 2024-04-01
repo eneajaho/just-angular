@@ -5,7 +5,7 @@ description: How change detection will be replaced by signals in Angular and why
 coverImage: '/cd-article/a-change-detection-zone-js-zoneless-local-change-detection-and-signals-story.webp'
 coverImageAlt: 'Photo by Mark Boss on Unsplash'
 tags: [ 'Angular', 'Change Detection', 'Signals', 'RefreshView' ]
-publishedAt: '2024-03-26T00:00:00.000Z'
+publishedAt: '2023-12-21T00:00:00.000Z'
 ---
 
 # A change detection, zone.js, zoneless, local change detection, and signals story 📚
