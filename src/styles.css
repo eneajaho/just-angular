@@ -228,10 +228,12 @@ hr {
 .analog-markdown ul {
   list-style: disc;
   margin-left: 20px;
+  margin-top: 5px;
 }
 
 .analog-markdown li {
   line-height: 24px;
+  padding-bottom: 5px;
 }
 
 .analog-markdown p {
