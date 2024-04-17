@@ -64,6 +64,10 @@ And that's it, you can now remove `zone.js` from your `angular.json` polyfills a
 
 > Removing this line from the `polyfills` array, just made your app **13kb lighter** 🎉
 
+The moment we don't have zone.js in the polyfills anymore, Angular will support native async/await and won't downlevel the code to use generators or promises, which is a big win 🎉!
+
+More here in the PR: [feat(@angular-devkit/build-angular): support native async/await when app is zoneless](https://github.com/angular/angular-cli/pull/27486)
+
 ### How does it work?
 
 The new zoneless change detection is build on the idea that your components will let Angular know when something has changed immediately. So, there won't be any intermediate layer like `zone.js` to notify Angular that something has changed.
