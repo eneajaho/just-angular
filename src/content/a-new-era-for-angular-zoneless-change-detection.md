@@ -8,7 +8,9 @@ tags: ["Angular", "Change Detection", "Signals", "RefreshView"]
 publishedAt: "2024-04-17T00:00:00.000Z"
 ---
 
-# Change Detection in Angular with Zone.js
+# A new era for Angular - Zoneless Change Detection
+
+## Change Detection in Angular with Zone.js
 
 Angular has always relied on Zone.js to know when something changed, and we can say that it has been the only framework that worked like this. In my previous blog post, I talked about how Angular's change detection works and how it is becoming better.
 
