@@ -27,6 +27,7 @@ export class SeoService {
       { name: 'twitter:site', content: '@Enea_Jahollari' },
       { name: 'twitter:creator', content: '@Enea_Jahollari' },
       { name: 'twitter:image', content: `https://justangular.com${image}` },
+      { name: 'twitter:image:src', content: `https://justangular.com${image}` },
     ]);
   }
 }
