@@ -89,3 +89,7 @@ export class AppComponent {
 
 By following this simple rule, you can protect your Angular app from infinite change detection loops. 
 
+---
+
+# Thanks for reading!
+If this article was interesting and useful to you, and you want to learn more about Angular, support me by [buying me a coffee ☕️](https://ko-fi.com/eneajahollari) or follow me on X (formerly Twitter) [@Enea_Jahollari](https://twitter.com/Enea_Jahollari) where I tweet and blog a lot about `Angular` latest news, signals, videos, podcasts, updates, RFCs, pull requests and so much more. 💎
