@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { injectContentFiles } from '@analogjs/content';
 import PostAttributes from '../../post-attributes';
 import { RouterLink } from '@angular/router';
 import { Breadcrumbs } from '../../components/breadcrumb.component';
 import { RouteMeta } from '@analogjs/router';
 import { DatePipe } from '@angular/common';
+import { injectQueryParams } from 'ngxtension/inject-query-params';
 
 export const routeMeta: RouteMeta = {
   title: 'All Blog Posts - justangular.com',
@@ -21,21 +22,28 @@ export const routeMeta: RouteMeta = {
     <div class="py-20 sm:py-24">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl lg:max-w-4xl">
-          <h2
-            class="text-3xl font-bold tracking-tight text-gray-200 sm:text-4xl"
-          >
-            Blog posts 🍒
-          </h2>
-          <p class="mt-2 text-lg leading-8 text-gray-400">
-            Grow your Angular development skills with our carefully curated
-            posts.
-          </p>
+          <div class="grid items-center" style="grid-template-columns: 1fr 150px">
+            <div>
+              <h2 class="text-3xl font-bold tracking-tight text-gray-200 sm:text-4xl">
+                Blog posts 🍒
+              </h2>
+              <p class="mt-2 text-lg leading-8 text-gray-400">
+                Grow your Angular development skills with our carefully curated
+                posts.
+              </p>
+            </div>
+            <div class="hidden md:flex">
+              <label>
+                <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" type="checkbox" [checked]="hideImages()" (change)="handleHideImagesChange($event)">
+                Hide Covers
+              </label>
+            </div>
+          </div>
           <div class="mt-16 space-y-10 lg:mt-20 lg:space-y-20">
             @for (post of posts;track post.attributes.slug) {
-            <article class="relative isolate flex flex-col gap-8 lg:flex-row">
-              <div
-                class="relative aspect-[16/9] sm:aspect-[2/1] lg:aspect-square lg:w-64 lg:shrink-0"
-              >
+            <article class="relative isolate flex flex-col gap-8">
+              @if (!hideImages()) {
+              <div class="relative aspect-[16/9]">
                 <div
                   [routerLink]="[post.attributes.slug]"
                   class="absolute inset-0 rounded-2xl ring-1 ring-inset cursor-pointer ring-gray-900/10"
@@ -49,6 +57,7 @@ export const routeMeta: RouteMeta = {
                   />
                 </div>
               </div>
+              }
               <div>
                 <div class="flex items-center gap-x-4 text-xs">
                   <time datetime="2020-03-16" class="text-gray-400">
@@ -70,7 +79,7 @@ export const routeMeta: RouteMeta = {
                   <p class="my-5 text-sm leading-6 text-gray-300">
                     {{ post.attributes.description }}
                   </p>
-<!-- 
+                  <!-- 
                   <div class="flex space-x-2 overflow-x-scroll">
                     @for (tag of post.attributes.tags; track tag) {
                     <a
@@ -99,4 +108,12 @@ export default class HomeComponent {
     .sort((a1, a2) =>
       a1.attributes.publishedAt > a2.attributes.publishedAt ? -1 : 1
     );
+
+  hideImagesParam = injectQueryParams('hideImages');
+
+  hideImages = signal(this.hideImagesParam() ?? false);
+
+  handleHideImagesChange(event: Event) {
+    this.hideImages.set((event.target as HTMLInputElement).checked);
+  }
 }
