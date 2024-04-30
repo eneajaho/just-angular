@@ -8,11 +8,7 @@
   margin: 0 auto;
   margin-top: 10px;
 
-  min-height: min-content;
-
-  @media (min-width: 1024px) {
-    min-height: 500px;
-  }
+  height: 100%;
 }
 
 article {
