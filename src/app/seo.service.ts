@@ -21,12 +21,12 @@ export class SeoService {
       },
       { name: 'og:title', content: title },
       { name: 'og:description', content: description },
-      { name: 'og:image', content: image },
+      { name: 'og:image', content: `https://justangular.com${image}` },
       // Twitter Card
       { name: 'twitter:card', content: description },
       { name: 'twitter:site', content: '@Enea_Jahollari' },
       { name: 'twitter:creator', content: '@Enea_Jahollari' },
-      { name: 'twitter:image', content: image },
+      { name: 'twitter:image', content: `https://justangular.com${image}` },
     ]);
   }
 }
