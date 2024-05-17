@@ -140,10 +140,21 @@ Let declaration will work almost the same as let declarations in javascript.
 - Scoping will work the same as let in javascript. 
 - Type inference just works! 
 - Let declarations will have precedence to a local let declaration over a component property.
-- A let declaration cannot be referenced before it is defined, with the exception when it's used inside an event handler.
+- A let declaration cannot be referenced before it is defined, with the exception when it's used inside an event handler. 
+
+This feature closes an issue that has been open since Mar 2017 -> https://github.com/angular/angular/issues/15280! 
 
 
-More info here: [PR - Start implementation of @let syntax](https://github.com/angular/angular/pull/55848)
+In the PR you can see some alternatives that were considered before the `@let` block was introduced.
+
+- @const instead of @let
+- entirely new keyword
+- @var instead of @let
+- block-like syntax
+
+More info here about the PR here: [Start implementation of @let syntax](https://github.com/angular/angular/pull/55848)
+
+
 
 That's it! This is how you can use the new `@let` block in Angular templates. This feature probably will be available in Angular v18.1, which is expected to be released in the upcoming months.
 
