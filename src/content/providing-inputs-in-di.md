@@ -228,6 +228,39 @@ export class ParentComponent {
 }
 ```
 
+### Use one token for multiple signal inputs or other signals
+
+If you have multiple inputs that you want to provide to a component, you can use a single token and provide an object with multiple signals.
+
+```typescript
+export const INPUTS = new InjectionToken<{
+  data: Signal<string>;
+  options: Signal<Record<string, string>>;
+}>("INPUTS");
+
+@Component({
+  template: `<app-child />`,
+  providers: [
+    {
+      provide: INPUTS,
+      useFactory: () => {
+        const cmp = inject(ParentComponent);
+        return {
+          data: cmp.data, 
+          options: cmp.options,
+          count: cmp.someNormalSignal,
+        };
+      },
+    },
+  ],
+})
+export class ParentComponent {
+  data = input<string>();
+  options = input<Record<string, string>>();
+
+  count = signal<number>();
+}
+
 Hope this helps you to remove prop drilling from your Angular applications and make your code more maintainable and easier to understand. 🚀
 
 
