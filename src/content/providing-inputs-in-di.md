@@ -260,6 +260,7 @@ export class ParentComponent {
 
   count = signal<number>();
 }
+```
 
 Hope this helps you to remove prop drilling from your Angular applications and make your code more maintainable and easier to understand. 🚀
 
