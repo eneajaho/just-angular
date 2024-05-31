@@ -22,8 +22,8 @@ export const routeMeta: RouteMeta = {
     <div class="py-20 sm:py-24">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl lg:max-w-4xl">
-          <div class="grid items-center" style="grid-template-columns: 1fr 150px">
-            <div>
+          <div class="grid grid-cols-10 items-center">
+            <div class="col-span-10 md:col-span-8">
               <h2 class="text-3xl font-bold tracking-tight text-gray-200 sm:text-4xl">
                 Blog posts 🍒
               </h2>
@@ -32,14 +32,14 @@ export const routeMeta: RouteMeta = {
                 posts.
               </p>
             </div>
-            <div class="hidden md:flex">
+            <div class="hidden md:flex col-span-0 md:col-span-2">
               <label>
                 <input class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600" type="checkbox" [checked]="hideImages()" (change)="handleHideImagesChange($event)">
                 Hide Covers
               </label>
             </div>
           </div>
-          <div class="mt-16 space-y-10 lg:mt-20 lg:space-y-20">
+          <div class="mt-16 grid grid-cols-1 md:grid-cols-2 align-top gap-4 lg:mt-20">
             @for (post of posts;track post.attributes.slug) {
             <article class="relative isolate flex flex-col gap-8">
               @if (!hideImages()) {

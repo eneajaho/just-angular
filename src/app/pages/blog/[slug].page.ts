@@ -12,12 +12,12 @@ import {
   injectContentFiles,
   MarkdownComponent,
 } from '@analogjs/content';
-import { AsyncPipe, NgStyle } from '@angular/common';
+import { AsyncPipe, DatePipe, NgStyle } from '@angular/common';
 
 import PostAttributes from '../../post-attributes';
 import {  Subject, takeUntil } from 'rxjs';
 import { Breadcrumbs } from '../../components/breadcrumb.component';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { SeoService } from '../../seo.service';
 import { PreviousArticles } from './prev-articles.component';
 import { LinkService } from '../../head-link.service';
@@ -44,7 +44,12 @@ import { LinkService } from '../../head-link.service';
       [alt]="post.attributes.description"
     />
 
+
     <div class="w-full grid justify-center relative" style="max-width: 100vw">
+      <div class="mt-3">
+        Published <b>{{ post.attributes.publishedAt | date: 'mediumDate' }}</b>
+      </div>
+
       <article>
         <!-- <div class="flex space-x-4 overflow-x-auto">
           @for (tag of post.attributes.tags; track tag) {
@@ -66,11 +71,35 @@ import { LinkService } from '../../head-link.service';
         </div> -->
       </article>
 
+      <hr>
+
+      <div style="display: flex;gap: 15px;align-items: center;">
+        Share this article:
+        <a
+          href="https://twitter.com/intent/tweet?text=Just read {{ post.attributes.title }}&url={{postUrl}}&via=Enea_Jahollari"
+          target="_blank"
+          rel="noopener"
+        >
+          <img src="x.svg" alt="Share on Twitter" class="social-icon" />
+        </a>
+        <a
+          href="https://www.linkedin.com/sharing/share-offsite/?url={{postUrl}}"
+          target="_blank"
+          rel="noopener"
+        >
+          <img src="linkedin.webp" alt="Share on LinkedIn" class="social-icon" />
+        </a>
+
+      </div>
+
       <div class="giscus"></div>
 
       <app-previous-articles [posts]="previousArticles()" />
     </div>
-
+<!-- 
+        <a href="https://ko-fi.com/A0A5KJQS4" target="_blank">
+          <img src="kofi.png" alt="Buy me a coffee" class="kofi" />
+        </a> -->
     }
     <!-- @if (isDev && isBrowser) { -->
     <!-- <img class="post__image" [src]="post.attributes.coverImage" />
@@ -101,6 +130,7 @@ import { LinkService } from '../../head-link.service';
   encapsulation: ViewEncapsulation.None,
   imports: [
     AsyncPipe,
+    DatePipe,
     MarkdownComponent,
     RouterLink,
     Breadcrumbs,
@@ -114,9 +144,12 @@ import { LinkService } from '../../head-link.service';
 export default class Blogpost implements OnDestroy {
   private seoService = inject(SeoService);
   private linkService = inject(LinkService);
+  private router = inject(Router);
   readonly post$ = injectContent<PostAttributes>('slug');
 
   private destroy$ = new Subject<void>();
+
+  postUrl = `https://justangular.com${this.router.url}`;
 
   readonly allArticles = injectContentFiles<PostAttributes>()
     .filter((article) => new Date() > new Date(article.attributes.publishedAt))
