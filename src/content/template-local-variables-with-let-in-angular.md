@@ -122,17 +122,6 @@ You can use the new `@let` in multiple ways:
 </div>
 ```
 
-- **Multiple declarations inline or in multiple lines**: 
-```html
-<div>  
-    @let total = count + previousCount, average = calcAverage(count), (can I use `total` here?)
-    
-    @let total = count + previousCount, 
-         average = calcAverage(count)
-    <h1>{{total}}</h1>
-</div>
-```
-
 
 ## Good to know
 Let declaration will work almost the same as let declarations in javascript. 
