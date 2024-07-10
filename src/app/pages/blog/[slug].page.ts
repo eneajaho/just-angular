@@ -16,7 +16,7 @@ import { AsyncPipe, DatePipe, NgStyle } from '@angular/common';
 
 import PostAttributes from '../../post-attributes';
 import {  Subject, takeUntil } from 'rxjs';
-import { Breadcrumbs } from '../../components/breadcrumb.component';
+import Breadcrumbs from '../../components/breadcrumb.analog';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { SeoService } from '../../seo.service';
 import { PreviousArticles } from './prev-articles.component';
@@ -29,7 +29,7 @@ import { LinkService } from '../../head-link.service';
     @if (post$ | async; as post) {
 
     <div class="w-full hidden md:block">
-      <app-breadcrumbs
+      <Breadcrumbs
         [breadcrumbs]="[
           { url: '/blog', label: 'Blog' },
           { url: '/blog/' + post.attributes.slug, label: post.attributes.title }
@@ -96,7 +96,7 @@ import { LinkService } from '../../head-link.service';
 
       <app-previous-articles [posts]="previousArticles()" />
     </div>
-<!-- 
+<!--
         <a href="https://ko-fi.com/A0A5KJQS4" target="_blank">
           <img src="kofi.png" alt="Buy me a coffee" class="kofi" />
         </a> -->

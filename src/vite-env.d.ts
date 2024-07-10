@@ -33,7 +33,8 @@ declare global {
   }
 }
 
-declare module '*.ng' {
-  const cmp = any;
+declare module '*.analog' {
+  import { Type } from '@angular/core';
+  const cmp = Type<unknown>;
   export default cmp;
 }
