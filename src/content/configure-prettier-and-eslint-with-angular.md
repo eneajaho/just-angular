@@ -144,6 +144,67 @@ Now we need to edit the **.eslintrc.json** file to include the prettier plugin.
 }
 ```
 
+## Extra features
+
+### Remove unused imports
+We can automatically remove unused imports by using the [eslint-plugin-unused-imports](https://www.npmjs.com/package/eslint-plugin-unused-imports) plugin.
+
+```bash
+npm install eslint-plugin-unused-imports --save-dev
+```
+
+> NOTE: If version 4.x doesn't work, try version 3.x
+
+Then we can add it to the `plugins` array in the ESLint configuration.
+
+```json
+{
+  "root": true,
+   // ... root level configuration
+  "plugins": ["unused-imports"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      // ..
+      "rules": {
+        "unused-imports/no-unused-imports": "error"
+      }
+    }
+  ]
+}
+---
+
+### Sort imports
+We can sort imports by using the [eslint-plugin-simple-import-sort](https://www.npmjs.com/package/eslint-plugin-simple-import-sort) plugin.
+
+```bash
+npm install eslint-plugin-simple-import-sort --save-dev
+```
+
+Then we can add it to the `plugins` array in the ESLint configuration.
+
+```json
+{
+  "root": true,
+   // ... root level configuration
+  "plugins": ["simple-import-sort"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      // ..
+      "rules": {
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error",
+      }
+    }
+  ]
+}
+```
+
+### Angular new control flow and @let syntax support
+Prettier v3 supports the new control flow. Support for the `@let` syntax was added in v3.3.3.
+If it still doesn't work, try upgrading to the latest version of `prettier` and `eslint-plugin-prettier` packages.
+
 ---
 
 ## VSCode and Webstorm shortucts
