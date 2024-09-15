@@ -1,5 +1,12 @@
 {
     "files.associations": {
         "*.ng" : "html"
-    }
+    },
+    "grammarly.selectors": [
+        {
+            "language": "markdown",
+            "scheme": "file",
+            "pattern": "src/content/removing-manual-cd-calls.md"
+        }
+    ]
 }

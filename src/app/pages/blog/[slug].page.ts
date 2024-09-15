@@ -16,11 +16,11 @@ import { AsyncPipe, DatePipe, NgStyle } from '@angular/common';
 
 import PostAttributes from '../../post-attributes';
 import {  Subject, takeUntil } from 'rxjs';
-import Breadcrumbs from '../../components/breadcrumb.analog';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { SeoService } from '../../seo.service';
 import { PreviousArticles } from './prev-articles.component';
 import { LinkService } from '../../head-link.service';
+import {Breadcrumbs} from "../../components/breadcrumb.component";
 
 @Component({
   selector: 'app-blog-post',
@@ -29,7 +29,7 @@ import { LinkService } from '../../head-link.service';
     @if (post$ | async; as post) {
 
     <div class="w-full hidden md:block">
-      <Breadcrumbs
+      <app-breadcrumbs
         [breadcrumbs]="[
           { url: '/blog', label: 'Blog' },
           { url: '/blog/' + post.attributes.slug, label: post.attributes.title }
@@ -131,13 +131,12 @@ import { LinkService } from '../../head-link.service';
   imports: [
     AsyncPipe,
     DatePipe,
-    MarkdownComponent,
     RouterLink,
-    Breadcrumbs,
     NgStyle,
     RouterLinkActive,
-    // PostTitles,
+    MarkdownComponent,
     PreviousArticles,
+    Breadcrumbs,
   ],
   providers: [LinkService]
 })

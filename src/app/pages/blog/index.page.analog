@@ -2,18 +2,19 @@
 import { signal } from '@angular/core';
 import { injectContentFiles } from '@analogjs/content';
 import PostAttributes from '../../post-attributes';
-import { RouterLink } from '@angular/router';
 import { RouteMeta } from '@analogjs/router';
+import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { injectQueryParams } from 'ngxtension/inject-query-params';
+import {Breadcrumbs} from "../../components/breadcrumb.component";
 
-import Breadcrumbs from '../../components/breadcrumb.analog';
+defineMetadata({
+  imports: [RouterLink, DatePipe, Breadcrumbs]
+})
 
 export const routeMeta: RouteMeta = {
   title: 'All Blog Posts - justangular.com',
 };
-
-defineMetadata({imports: [Breadcrumbs, DatePipe, RouterLink]});
 
 const posts = injectContentFiles<PostAttributes>()
   .filter((article) => new Date() > new Date(article.attributes.publishedAt))
@@ -31,7 +32,7 @@ function handleHideImagesChange(event: Event) {
 </script>
 <template>
 <div class="w-full hidden md:block">
-  <Breadcrumbs [breadcrumbs]="[{ url: '/blog', label: 'Blog' }]" />
+  <app-breadcrumbs [breadcrumbs]="[{ url: '/blog', label: 'Blog' }]" />
 </div>
 
 <div class="py-20 sm:py-24">
