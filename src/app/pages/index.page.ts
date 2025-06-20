@@ -30,262 +30,163 @@ export const routeMeta: RouteMeta = {
 @Component({
   standalone: true,
   template: `
-    <div class="px-6 py-10 lg:px-8">
-      <div class="mx-auto max-w-3xl text-base leading-7 text-gray-200">
-        <p class="text-base font-semibold leading-7 text-indigo-500">
-          Introducing
-        </p>
-        <h1
-          style="font-family: DM Mono, monospace;"
-          class="mt-2 text-3xl font-bold tracking-tight text-gray-100 sm:text-4xl"
-        >
-          justangular.com
-        </h1>
-        <p class="mt-6 text-xl leading-8">
-          The blog you would like to read if you are a beginner or an expert in
-          Angular. It is a comprehensive resource designed to cater to all
-          levels of proficiency, ensuring a seamless learning experience for
-          newcomers and seasoned developers alike.
-        </p>
-        <div class="mt-10 max-w-2xl text-xl leading-8">
-          <p>
-            Whether you're new to Angular or want to get better at it, this blog
-            is the perfect place for you. It shares the newest and most
-            important updates about Angular, along with useful tips and tricks.
-            Whether you're just starting out or want to improve your skills,
-            this blog has the information you need to sail smoothly through
-            Angular development.
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden py-20 sm:py-32">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-4xl text-center">
+          
+          <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-6xl lg:text-7xl">
+            <span class="gradient-text">justangular.com</span>
+          </h1>
+          
+          <p class="mt-8 text-xl leading-8 text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            The blog you would like to read if you are a beginner or an expert in Angular. 
+            A comprehensive resource designed to cater to all levels of proficiency, ensuring 
+            a seamless learning experience for newcomers and seasoned developers alike.
           </p>
-          <ul role="list" class="mt-8 max-w-xl space-y-8 text-gray-400">
-            <li class="flex gap-x-3">
-              <svg
-                class="mt-1 h-5 w-5 flex-none text-indigo-500"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              <span
-                ><strong class="font-semibold text-gray-100">Signals</strong>
-                Everything you need to know about signals, how they work and how
-                to use them.
-              </span>
-            </li>
-            <li class="flex gap-x-3">
-              <svg
-                class="mt-1 h-5 w-5 flex-none text-indigo-500"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              <span
-                ><strong class="font-semibold text-gray-100"
-                  >Change detection</strong
-                >
-                Angular needs to know when to update the view. It needs some
-                change detection.
-              </span>
-            </li>
-            <li class="flex gap-x-3">
-              <svg
-                class="mt-1 h-5 w-5 flex-none text-indigo-500"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              <span
-                ><strong class="font-semibold text-gray-100"
-                  >Control flow</strong
-                >
-                To show or not to show? That is the question. What &#64;if ?
-              </span>
-            </li>
-            <li class="flex gap-x-3">
-              <svg
-                class="mt-1 h-5 w-5 flex-none text-indigo-500"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              <span>
-                <strong class="font-semibold text-gray-100">
-                  Http call management
-                </strong>
-                When to call the server? How to handle errors? I changed my
-                mind, how do I cancel it?
-              </span>
-            </li>
-            <li class="flex gap-x-3">
-              <svg
-                class="mt-1 h-5 w-5 flex-none text-indigo-500"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              <span>
-                <strong class="font-semibold text-gray-100">Forms</strong>
-                You want to build a form? Validation? Typeahead? Two ways? We
-                got you covered.
-              </span>
-            </li>
-            <li class="flex gap-x-3">
-              <svg
-                class="mt-1 h-5 w-5 flex-none text-indigo-500"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              <span>
-                <strong class="font-semibold text-gray-100"
-                  >Guards, Resolvers, Interceptors</strong
-                >
-                Best practices at your fingertips.
-              </span>
-            </li>
-            <li class="flex gap-x-3">
-              <svg
-                class="mt-1 h-5 w-5 flex-none text-indigo-500"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                aria-hidden="true"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              <span>
-                <strong class="font-semibold text-gray-100"
-                  >Server side rendering?</strong
-                >
-                You want that SEO juice? And that fast inital load speed? Go to
-                the <a class="cursor-pointer" routerLink="/blog">blog</a>.
-              </span>
-            </li>
-          </ul>
-          <!-- <p class="mt-8">
-            Et vitae blandit facilisi magna lacus commodo. Vitae sapien duis
-            odio id et. Id blandit molestie auctor fermentum dignissim. Lacus
-            diam tincidunt ac cursus in vel. Mauris varius vulputate et ultrices
-            hac adipiscing egestas. Iaculis convallis ac tempor et ut. Ac lorem
-            vel integer orci.
-          </p>
-          <h2 class="mt-16 text-2xl font-bold tracking-tight text-gray-100">
-            From beginner to expert in 3 hours
-          </h2>
-          <p class="mt-6">
-            Id orci tellus laoreet id ac. Dolor, aenean leo, ac etiam consequat
-            in. Convallis arcu ipsum urna nibh. Pharetra, euismod vitae interdum
-            mauris enim, consequat vulputate nibh. Maecenas pellentesque id sed
-            tellus mauris, ultrices mauris. Tincidunt enim cursus ridiculus mi.
-            Pellentesque nam sed nullam sed diam turpis ipsum eu a sed convallis
-            diam.
-          </p>
-          <figure class="mt-10 border-l border-indigo-600 pl-9">
-            <blockquote class="font-semibold text-gray-100">
-              <p>
-                “Vel ultricies morbi odio facilisi ultrices accumsan donec lacus
-                purus. Lectus nibh ullamcorper ac dictum justo in euismod. Risus
-                aenean ut elit massa. In amet aliquet eget cras. Sem volutpat
-                enim tristique.”
-              </p>
-            </blockquote>
-            <figcaption class="mt-6 flex gap-x-4">
-              <img
-                class="h-6 w-6 flex-none rounded-full bg-gray-50"
-                src="https://images.unsplash.com/photo-1502685104226-ee32379fefbe?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt=""
-              />
-              <div class="text-sm leading-6">
-                <strong class="font-semibold text-gray-100">Maria Hill</strong>
-                – Marketing Manager
-              </div>
-            </figcaption>
-          </figure>
-          <p class="mt-10">
-            Faucibus commodo massa rhoncus, volutpat. Dignissim sed eget risus
-            enim. Mattis mauris semper sed amet vitae sed turpis id. Id dolor
-            praesent donec est. Odio penatibus risus viverra tellus varius sit
-            neque erat velit.
-          </p>
-        </div>
-        <figure class="mt-16">
-          <img
-            class="aspect-video rounded-xl bg-gray-50 object-cover"
-            src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=facearea&w=1310&h=873&q=80&facepad=3"
-            alt=""
-          />
-          <figcaption class="mt-4 flex gap-x-2 text-sm leading-6 text-gray-500">
-            <svg
-              class="mt-0.5 h-5 w-5 flex-none text-gray-300"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              aria-hidden="true"
+          
+          <div class="mt-10 flex items-center justify-center gap-x-6">
+            <a
+              routerLink="/blog"
+              class="rounded-lg bg-blue-600 px-6 py-3 text-lg font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all duration-200 hover:scale-105"
             >
-              <path
-                fill-rule="evenodd"
-                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z"
-                clip-rule="evenodd"
-              />
-            </svg>
-            Faucibus commodo massa rhoncus, volutpat.
-          </figcaption>
-        </figure>-->
-          <div class="mt-16 max-w-2xl">
-            <h2 class="text-2xl font-bold tracking-tight text-gray-100">
-              All the Angular you need
-            </h2>
-            <p class="mt-6">
-              Feel free to browse the blog and learn more about Angular. If you
-              have any questions, feel free to reach out to me on X (formerly
-              Twitter) at
-              <a class="cursor-pointer" href="https://x.com/Enea_Jahollari">
-                Enea_Jahollari </a
-              >.
-            </p>
+              Explore Blog
+            </a>
+            <a
+              href="https://twitter.com/Enea_Jahollari"
+              target="_blank"
+              class="text-lg font-semibold leading-6 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors duration-200"
+            >
+              Follow on Twitter <span aria-hidden="true">→</span>
+            </a>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- <app-from-blog /> -->
+    <!-- Features Section -->
+    <section class="py-20 sm:py-32">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl lg:max-w-4xl">
+          <div class="text-center mb-16">
+            <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+              Everything you need to master Angular
+            </h2>
+            <p class="mt-4 text-lg leading-8 text-gray-600 dark:text-gray-400">
+              Whether you're new to Angular or want to get better at it, this blog is the perfect place for you.
+            </p>
+          </div>
+          
+          <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
+            <div class="glass p-8 rounded-2xl hover:scale-105 transition-transform duration-300">
+              <div class="flex items-center gap-x-3 mb-4">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/10">
+                  <svg class="h-6 w-6 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Signals</h3>
+              </div>
+              <p class="text-gray-600 dark:text-gray-300">
+                Everything you need to know about signals, how they work and how to use them effectively in your Angular applications.
+              </p>
+            </div>
+
+            <div class="glass p-8 rounded-2xl hover:scale-105 transition-transform duration-300">
+              <div class="flex items-center gap-x-3 mb-4">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/10">
+                  <svg class="h-6 w-6 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Change Detection</h3>
+              </div>
+              <p class="text-gray-600 dark:text-gray-300">
+                Angular needs to know when to update the view. Learn about change detection strategies and optimization techniques.
+              </p>
+            </div>
+
+            <div class="glass p-8 rounded-2xl hover:scale-105 transition-transform duration-300">
+              <div class="flex items-center gap-x-3 mb-4">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-green-500/10">
+                  <svg class="h-6 w-6 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Control Flow</h3>
+              </div>
+              <p class="text-gray-600 dark:text-gray-300">
+                To show or not to show? That is the question. Master Angular's new control flow syntax with &#64;if, &#64;for, and more.
+              </p>
+            </div>
+
+            <div class="glass p-8 rounded-2xl hover:scale-105 transition-transform duration-300">
+              <div class="flex items-center gap-x-3 mb-4">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-500/10">
+                  <svg class="h-6 w-6 text-orange-600 dark:text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">HTTP Management</h3>
+              </div>
+              <p class="text-gray-600 dark:text-gray-300">
+                When to call the server? How to handle errors? Learn about HTTP call management, error handling, and request cancellation.
+              </p>
+            </div>
+
+            <div class="glass p-8 rounded-2xl hover:scale-105 transition-transform duration-300">
+              <div class="flex items-center gap-x-3 mb-4">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-pink-500/10">
+                  <svg class="h-6 w-6 text-pink-600 dark:text-pink-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Forms</h3>
+              </div>
+              <p class="text-gray-600 dark:text-gray-300">
+                You want to build a form? Validation? Typeahead? Two-way binding? We've got you covered with comprehensive form guides.
+              </p>
+            </div>
+
+            <div class="glass p-8 rounded-2xl hover:scale-105 transition-transform duration-300">
+              <div class="flex items-center gap-x-3 mb-4">
+                <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500/10">
+                  <svg class="h-6 w-6 text-indigo-600 dark:text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Guards & Interceptors</h3>
+              </div>
+              <p class="text-gray-600 dark:text-gray-300">
+                Best practices at your fingertips. Learn about route guards, HTTP interceptors, and resolvers for robust applications.
+              </p>
+            </div>
+          </div>
+
+          <div class="mt-16 text-center">
+            <div class="glass p-8 rounded-2xl">
+              <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">
+                Server Side Rendering?
+              </h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-6">
+                You want that SEO juice? And that fast initial load speed? 
+                Discover the power of Angular Universal and SSR techniques.
+              </p>
+              <a 
+                routerLink="/blog"
+                class="inline-flex items-center rounded-lg bg-blue-600 px-6 py-3 text-lg font-semibold text-white shadow-sm hover:bg-blue-500 transition-all duration-200 hover:scale-105"
+              >
+                Explore the Blog
+                <svg class="ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   `,
-  imports: [RouterLink],
+  imports: [RouterLink]
 })
-export default class HomePageComponent {}
+export default class HomePageComponent { }

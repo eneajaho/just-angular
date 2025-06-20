@@ -81,14 +81,53 @@ p {
 }
 
 .social-icon {
-  max-width: 40px;
-  background: white;
-  padding: 8px;
-  border-radius: 7px;
-  transition: all 0.2s;
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease-in-out;
+}
 
-  &:hover {
-    background: #0dffae;
-    padding: 6px;
-  }
+.social-icon-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background-color: #e2e8f0;
+  dark:bg-slate-700;
+  border-radius: 9999px;
+  transition: all 0.2s ease-in-out;
+}
+
+.social-icon-link:hover {
+  transform: scale(1.1);
+  background-color: #cbd5e1;
+  dark:bg-slate-600;
+}
+
+pre .copy-button {
+  all: unset;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0.5em;
+  right: 0.5em;
+  background: #374151;
+  color: #d1d5db;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+}
+
+pre:hover .copy-button {
+  opacity: 1;
+}
+
+pre .copy-button svg {
+  width: 24px;
+  height: 24px;
 }

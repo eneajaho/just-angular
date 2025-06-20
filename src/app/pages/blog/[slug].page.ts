@@ -1,4 +1,5 @@
 import {
+  AfterViewChecked,
   Component,
   OnDestroy,
   ViewEncapsulation,
@@ -15,116 +16,78 @@ import {
 import { AsyncPipe, DatePipe, NgStyle } from '@angular/common';
 
 import PostAttributes from '../../post-attributes';
-import {  Subject, takeUntil } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { SeoService } from '../../seo.service';
 import { PreviousArticles } from './prev-articles.component';
 import { LinkService } from '../../head-link.service';
-import {Breadcrumbs} from "../../components/breadcrumb.component";
+import { Breadcrumbs } from "../../components/breadcrumb.component";
 
 @Component({
   selector: 'app-blog-post',
   standalone: true,
   template: `
     @if (post$ | async; as post) {
-
-    <div class="w-full hidden md:block">
-      <app-breadcrumbs
-        [breadcrumbs]="[
-          { url: '/blog', label: 'Blog' },
-          { url: '/blog/' + post.attributes.slug, label: post.attributes.title }
-        ]"
-      />
-    </div>
-
-    <img
-      class="cover-image"
-      style="view-transition-name: {{ post.attributes.slug }}"
-      [src]="post.attributes.coverImage"
-      [alt]="post.attributes.description"
-    />
-
-
     <div class="w-full grid justify-center relative" style="max-width: 100vw">
-      <div class="mt-3">
-        Published <b>{{ post.attributes.publishedAt | date: 'mediumDate' }}</b>
+      <div class="w-full hidden md:block">
+        <app-breadcrumbs
+          [breadcrumbs]="[
+            { url: '/blog', label: 'Blog' },
+            { url: '/blog/' + post.attributes.slug, label: post.attributes.title }
+          ]"
+        />
+      </div>
+
+      <img
+        class="cover-image"
+        style="view-transition-name: {{ post.attributes.slug }}"
+        [src]="post.attributes.coverImage"
+        [alt]="post.attributes.description"
+      />
+
+      <div class="flex items-center mt-8 text-sm text-gray-500 dark:text-gray-400">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <span>Published on {{ post.attributes.publishedAt | date: 'longDate' }}</span>
+      </div>
+
+      <div class="mt-4 flex flex-wrap items-center gap-2">
+        @for (tag of post.attributes.tags; track tag) {
+          <a [routerLink]="['/blog']" [queryParams]="{ tag }"
+             class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900 px-3 py-1 text-sm font-medium text-blue-800 dark:text-blue-200 hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors duration-200">
+            {{ tag }}
+          </a>
+        }
       </div>
 
       <article>
-        <!-- <div class="flex space-x-4 overflow-x-auto">
-          @for (tag of post.attributes.tags; track tag) {
-          <a
-            [routerLink]="[]"
-            [queryParams]="{ tag }"
-            class="relative z-10 rounded-full bg-gray-800 px-3 py-1.5 font-medium text-gray-200 hover:bg-black-500"
-          >
-            {{ tag }}
-          </a>
-          }
-        </div> -->
         <analog-markdown [content]="post.content" />
-        <!-- <div
-          class="sticky top-0 sm:hidden lg:block"
-          style="position: absolute; right: 50px; top: 25px"
-        >
-          <app-post-titles ngSkipHydration />
-        </div> -->
       </article>
+      
+      <hr class="my-8 border-gray-200 dark:border-gray-700" />
 
-      <hr>
-
-      <div style="display: flex;gap: 15px;align-items: center;">
-        Share this article:
-        <a
-          href="https://twitter.com/intent/tweet?text=Just read {{ post.attributes.title }}&url={{postUrl}}&via=Enea_Jahollari"
-          target="_blank"
-          rel="noopener"
-        >
-          <img src="x.svg" alt="Share on Twitter" class="social-icon" />
-        </a>
-        <a
-          href="https://www.linkedin.com/sharing/share-offsite/?url={{postUrl}}"
-          target="_blank"
-          rel="noopener"
-        >
-          <img src="linkedin.webp" alt="Share on LinkedIn" class="social-icon" />
-        </a>
-
+      <div class="bg-gray-100 dark:bg-slate-800 p-6 rounded-lg flex items-center justify-between flex-col sm:flex-row gap-6">
+        <div class="text-lg font-semibold text-gray-800 dark:text-white text-center sm:text-left">
+          Did you find this article helpful? Please share it!
+        </div>
+        <div class="flex items-center gap-4">
+          <a href="https://twitter.com/intent/tweet?text=Just read {{ post.attributes.title }}&url={{postUrl}}&via=Enea_Jahollari"
+             target="_blank" rel="noopener" class="social-icon-link">
+            <img src="/x.svg" alt="Share on Twitter" class="social-icon" />
+          </a>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{postUrl}}" target="_blank"
+             rel="noopener" class="social-icon-link">
+            <img src="/linkedin.webp" alt="Share on LinkedIn" class="social-icon" />
+          </a>
+        </div>
       </div>
 
       <div class="giscus"></div>
 
       <app-previous-articles [posts]="previousArticles()" />
-    </div>
-<!--
-        <a href="https://ko-fi.com/A0A5KJQS4" target="_blank">
-          <img src="kofi.png" alt="Buy me a coffee" class="kofi" />
-        </a> -->
-    }
-    <!-- @if (isDev && isBrowser) { -->
-    <!-- <img class="post__image" [src]="post.attributes.coverImage" />
-    @if (hasChanges()) {
-    <button (click)="updateMarkdownFile()">Save Changes</button>
-    }
-    <div
-      style="display: grid; grid-template-columns: 701px 700px; gap: 10px; width: 1400px"
-    >
-      <app-markdown-editor
-        [content]="content()"
-        (contentChange)="updateContent($event, markdownRenderer)"
-      />
-      <div style="max-width: 100%;">
-        @if (loading()) {
-        <analog-markdown [content]="previousContent()" />
-        }
-        <analog-markdown
-          style="display: {{ loading() ? 'none' : 'block' }};"
-          [content]="content()"
-          #markdownRenderer
-        />
       </div>
-    </div>
-    } @else { -->
+    }
   `,
   styleUrl: './slug.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -140,7 +103,7 @@ import {Breadcrumbs} from "../../components/breadcrumb.component";
   ],
   providers: [LinkService]
 })
-export default class Blogpost implements OnDestroy {
+export default class Blogpost implements OnDestroy, AfterViewChecked {
   private seoService = inject(SeoService);
   private linkService = inject(LinkService);
   private router = inject(Router);
@@ -189,10 +152,44 @@ export default class Blogpost implements OnDestroy {
       });
 
       if (post.attributes.canonicalUrl) {
-        this.linkService.addTag( { rel: 'canonical', href: post.attributes.canonicalUrl, pageId: post.slug } );
+        this.linkService.addTag({ rel: 'canonical', href: post.attributes.canonicalUrl, pageId: post.slug });
       } else {
         this.linkService.removeLinks();
       }
+    });
+  }
+
+  ngAfterViewChecked() {
+    document.querySelectorAll('pre').forEach((pre) => {
+      if (pre.querySelector('.copy-button')) {
+        return;
+      }
+
+      const button = document.createElement('button');
+      button.className = 'copy-button';
+      button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v3.043m-7.416 0v3.043c0 .212.03.418.084.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+      </svg>
+      `;
+      pre.appendChild(button);
+      pre.style.position = 'relative';
+
+      button.addEventListener('click', () => {
+        const code = pre.querySelector('code')?.innerText;
+        if (code) {
+          navigator.clipboard.writeText(code);
+          button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+          </svg>
+          `;
+          setTimeout(() => {
+            button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v3.043m-7.416 0v3.043c0 .212.03.418.084.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+            </svg>
+            `;
+          }, 2000);
+        }
+      });
     });
   }
 
