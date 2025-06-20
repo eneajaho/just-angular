@@ -28,64 +28,66 @@ import { Breadcrumbs } from "../../components/breadcrumb.component";
   standalone: true,
   template: `
     @if (post$ | async; as post) {
-    <div class="w-full grid justify-center relative" style="max-width: 100vw">
-      <div class="w-full hidden md:block">
-        <app-breadcrumbs
-          [breadcrumbs]="[
-            { url: '/blog', label: 'Blog' },
-            { url: '/blog/' + post.attributes.slug, label: post.attributes.title }
-          ]"
+    <div class="px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <div class="w-full hidden md:block">
+          <app-breadcrumbs
+            [breadcrumbs]="[
+              { url: '/blog', label: 'Blog' },
+              { url: '/blog/' + post.attributes.slug, label: post.attributes.title }
+            ]"
+          />
+        </div>
+
+        <img
+          class="cover-image mt-8"
+          style="view-transition-name: {{ post.attributes.slug }}"
+          [src]="post.attributes.coverImage"
+          [alt]="post.attributes.description"
         />
-      </div>
 
-      <img
-        class="cover-image"
-        style="view-transition-name: {{ post.attributes.slug }}"
-        [src]="post.attributes.coverImage"
-        [alt]="post.attributes.description"
-      />
-
-      <div class="flex items-center mt-8 text-sm text-gray-500 dark:text-gray-400">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-        </svg>
-        <span>Published on {{ post.attributes.publishedAt | date: 'longDate' }}</span>
-      </div>
-
-      <div class="mt-4 flex flex-wrap items-center gap-2">
-        @for (tag of post.attributes.tags; track tag) {
-          <a [routerLink]="['/blog']" [queryParams]="{ tag }"
-             class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900 px-3 py-1 text-sm font-medium text-blue-800 dark:text-blue-200 hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors duration-200">
-            {{ tag }}
-          </a>
-        }
-      </div>
-
-      <article>
-        <analog-markdown [content]="post.content" />
-      </article>
-      
-      <hr class="my-8 border-gray-200 dark:border-gray-700" />
-
-      <div class="bg-gray-100 dark:bg-slate-800 p-6 rounded-lg flex items-center justify-between flex-col sm:flex-row gap-6">
-        <div class="text-lg font-semibold text-gray-800 dark:text-white text-center sm:text-left">
-          Did you find this article helpful? Please share it!
+        <div class="flex items-center mt-8 text-sm text-gray-500 dark:text-gray-400">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <span>Published on {{ post.attributes.publishedAt | date: 'longDate' }}</span>
         </div>
-        <div class="flex items-center gap-4">
-          <a href="https://twitter.com/intent/tweet?text=Just read {{ post.attributes.title }}&url={{postUrl}}&via=Enea_Jahollari"
-             target="_blank" rel="noopener" class="social-icon-link">
-            <img src="/x.svg" alt="Share on Twitter" class="social-icon" />
-          </a>
-          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{postUrl}}" target="_blank"
-             rel="noopener" class="social-icon-link">
-            <img src="/linkedin.webp" alt="Share on LinkedIn" class="social-icon" />
-          </a>
+
+        <div class="mt-4 flex flex-wrap items-center gap-2">
+          @for (tag of post.attributes.tags; track tag) {
+            <a [routerLink]="['/blog']" [queryParams]="{ tag }"
+               class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900 px-3 py-1 text-sm font-medium text-blue-800 dark:text-blue-200 hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors duration-200">
+              {{ tag }}
+            </a>
+          }
         </div>
-      </div>
 
-      <div class="giscus"></div>
+        <article class="prose prose-lg dark:prose-invert max-w-none mt-8">
+          <analog-markdown [content]="post.content" />
+        </article>
+        
+        <hr class="my-8 border-gray-200 dark:border-gray-700" />
 
-      <app-previous-articles [posts]="previousArticles()" />
+        <div class="bg-gray-100 dark:bg-slate-800 p-6 rounded-lg flex items-center justify-between flex-col sm:flex-row gap-6">
+          <div class="text-lg font-semibold text-gray-800 dark:text-white text-center sm:text-left">
+            Did you find this article helpful? Please share it!
+          </div>
+          <div class="flex items-center gap-4">
+            <a href="https://twitter.com/intent/tweet?text=Just read {{ post.attributes.title }}&url={{postUrl}}&via=Enea_Jahollari"
+               target="_blank" rel="noopener" class="social-icon-link">
+              <img src="/x.svg" alt="Share on Twitter" class="social-icon" />
+            </a>
+            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{postUrl}}" target="_blank"
+               rel="noopener" class="social-icon-link">
+              <img src="/linkedin.webp" alt="Share on LinkedIn" class="social-icon" />
+            </a>
+          </div>
+        </div>
+
+        <div class="giscus"></div>
+
+        <app-previous-articles [posts]="previousArticles()" />
+        </div>
       </div>
     }
   `,
