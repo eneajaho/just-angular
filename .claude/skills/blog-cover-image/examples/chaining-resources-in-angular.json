@@ -1,0 +1,8 @@
+{
+  "title": ["CHAINING RESOURCES", "IN ANGULAR"],
+  "emoji": "",
+  "handle": "@enea_jahollari",
+  "output": "src/assets/chaining-resources-in-angular.png",
+  "codeOpacity": 0.15,
+  "code": "const movieResource = resource({\n  params: () => ({ id: movieId() }),\n  loader: ({ params }) => fetchMovie(params),\n});\n\nconst recommendations = resource({\n  params: ({ chain }) => chain(movieResource)?.genre,\n  loader: ({ params }) => fetchRecommendations(params),\n});\n\nconst cast = httpResource<Actor[]>(\n  ({ chain }) => `/api/movies/${chain(movieResource)?.id}/cast`,\n);"
+}
