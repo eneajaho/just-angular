@@ -1,79 +1,95 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { ThemeToggle } from './theme-toggle.component';
 
 @Component({
   selector: 'app-navbar',
   template: `
-    <nav class="sticky top-0 z-50 glass !rounded-none border-b border-gray-200 dark:border-white/10 backdrop-blur-md">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav class="sticky top-0 z-50 bar">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
-          <!-- Logo/Brand -->
-          <div class="flex-shrink-0">
-            <a
-              routerLink="/"
-              [routerLinkActiveOptions]="{ exact: true }"
-              routerLinkActive="text-blue-600 dark:text-blue-400"
-              ariaCurrentWhenActive="page"
-              class="text-xl font-bold gradient-text hover:scale-105 transition-transform duration-200"
-            >
-              justangular.com
-            </a>
-          </div>
+          <!-- Wordmark -->
+          <a
+            routerLink="/"
+            [routerLinkActiveOptions]="{ exact: true }"
+            routerLinkActive="!text-ink"
+            class="font-serif text-xl font-semibold tracking-tight text-ink hover:opacity-80 transition-opacity"
+          >
+            justangular<span class="text-accent">.com</span>
+          </a>
 
-          <!-- Navigation Links -->
-          <div class="hidden md:block">
-            <div class="ml-10 flex items-baseline space-x-4">
-              @for (navItem of navItems; track navItem.url) {
+          <!-- Desktop nav -->
+          <div class="hidden md:flex items-center gap-1">
+            @for (navItem of navItems; track navItem.url) {
               <a
                 [routerLink]="navItem.url"
                 [routerLinkActiveOptions]="{ exact: true }"
-                routerLinkActive="bg-blue-500/20 text-blue-600 dark:text-blue-400 border-blue-600 dark:border-blue-400"
+                routerLinkActive="text-ink bg-ink/5"
                 ariaCurrentWhenActive="page"
-                class="text-gray-700 dark:text-white hover:text-blue-600 dark:hover:text-blue-300 hover:bg-gray-100 dark:hover:bg-white/10 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 border border-transparent hover:border-gray-300 dark:hover:border-white/20"
+                class="px-3.5 py-2 rounded-full text-sm font-medium text-muted hover:text-ink hover:bg-ink/5 transition-colors"
               >
                 {{ navItem.label }}
               </a>
-              }
-            </div>
+            }
+            <span class="mx-2 h-5 w-px bg-hairline"></span>
+            <a
+              href="https://twitter.com/Enea_Jahollari"
+              target="_blank"
+              rel="noopener"
+              class="px-3.5 py-2 rounded-full text-sm font-medium text-muted hover:text-ink hover:bg-ink/5 transition-colors"
+            >
+              Twitter&nbsp;<span aria-hidden="true">↗</span>
+            </a>
+            <app-theme-toggle />
           </div>
 
-          <!-- Mobile menu button -->
-          <div class="md:hidden">
+          <!-- Mobile controls -->
+          <div class="md:hidden flex items-center gap-2">
+            <app-theme-toggle />
             <button
               type="button"
-              class="p-2 rounded-lg transition-all duration-200 text-blue-100 dark:text-gray-300 bg-blue-50 dark:bg-slate-800 hover:bg-blue-100 dark:hover:bg-slate-700"
+              class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-hairline text-ink/70 hover:text-ink transition-colors"
               (click)="toggleMobileMenu()"
+              aria-label="Open menu"
             >
-              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
-              <span class="sr-only">Open main menu</span>
             </button>
           </div>
         </div>
 
         <!-- Mobile menu -->
         @if (mobileMenuOpen) {
-        <div class="md:hidden">
-          <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-t border-gray-200 dark:border-white/10 mt-4">
-            @for (navItem of navItems; track navItem.url) {
-            <a
-              [routerLink]="navItem.url"
-              [routerLinkActiveOptions]="{ exact: true }"
-              routerLinkActive="bg-blue-500/20 text-blue-600 dark:text-blue-400"
-              ariaCurrentWhenActive="page"
-              class="text-gray-700 dark:text-white hover:text-blue-600 dark:hover:text-blue-300 hover:bg-gray-100 dark:hover:bg-white/10 block px-3 py-2 rounded-lg text-base font-medium transition-all duration-200"
-            >
-              {{ navItem.label }}
-            </a>
-            }
+          <div class="md:hidden pb-4">
+            <div class="flex flex-col gap-1 border-t border-hairline pt-3">
+              @for (navItem of navItems; track navItem.url) {
+                <a
+                  [routerLink]="navItem.url"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                  routerLinkActive="text-ink bg-ink/5"
+                  ariaCurrentWhenActive="page"
+                  (click)="mobileMenuOpen = false"
+                  class="px-3 py-2.5 rounded-xl text-base font-medium text-muted hover:text-ink hover:bg-ink/5 transition-colors"
+                >
+                  {{ navItem.label }}
+                </a>
+              }
+              <a
+                href="https://twitter.com/Enea_Jahollari"
+                target="_blank"
+                rel="noopener"
+                class="px-3 py-2.5 rounded-xl text-base font-medium text-muted hover:text-ink hover:bg-ink/5 transition-colors"
+              >
+                Twitter ↗
+              </a>
+            </div>
           </div>
-        </div>
         }
       </div>
     </nav>
   `,
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, ThemeToggle],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

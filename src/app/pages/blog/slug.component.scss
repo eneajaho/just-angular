@@ -1,88 +1,113 @@
 .cover-image {
-  width: 90vw;
-  max-width: 900px;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   object-position: center;
-  margin-bottom: 2rem;
-  border-radius: 10px;
-  margin: 0 auto;
-  margin-top: 10px;
-
-  height: 100%;
+  border-radius: 18px;
+  border: 1px solid rgb(var(--hairline));
+  box-shadow: 0 30px 60px -30px rgb(var(--ink) / 0.28);
 }
 
-article {
+/* Article typography — scoped to the markdown body so it doesn't leak globally */
+article.analog-markdown {
   min-width: 200px;
-  max-width: 800px;
-  font-size: 18px;
+  max-width: none;
+  font-size: 19px;
+  color: rgb(var(--ink-soft));
   z-index: 2;
-}
-
-h1 {
-  font-size: 2em;
-  line-height: 1.1;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
-}
-
-h2 {
-  font-size: 1.6em;
-  line-height: 1.1;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
-}
-
-h3 {
-  font-size: 1.2em;
-  line-height: 1.1;
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
-  font-weight: 600;
-}
-
-blockquote {
-  font-size: 1.2em;
-  font-style: inherit;
-
-  margin-top: 1em;
-  margin-bottom: 1em;
-  padding-left: 1em;
-  border-left: 4px solid #646cff;
-}
-
-p {
-  line-height: 32px;
-  margin-top: 2em;
-}
-
-@media (max-width: 768px) {
-  article {
-    margin-top: 0;
-    width: 90vw;
-    margin-top: 0;
-    font-size: 16px;
-  }
 
   h1 {
-    font-size: 1.5em;
+    font-size: 2.4em;
+    line-height: 1.1;
+    margin-top: 0.4em;
+    margin-bottom: 0.4em;
+    letter-spacing: -0.02em;
   }
 
   h2 {
-    font-size: 1.2em;
+    font-size: 1.7em;
+    line-height: 1.15;
+    margin-top: 1.8em;
+    margin-bottom: 0.5em;
+    letter-spacing: -0.015em;
+    scroll-margin-top: 6rem;
   }
 
   h3 {
-    font-size: 1em;
+    font-size: 1.28em;
+    line-height: 1.2;
+    margin-top: 1.6em;
+    margin-bottom: 0.4em;
+    font-weight: 600;
+    scroll-margin-top: 6rem;
   }
 
   blockquote {
-    font-size: 1em;
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 1.28em;
+    font-style: italic;
+    line-height: 1.5;
+    color: rgb(var(--ink));
+    margin: 1.6em 0;
+    padding: 0.2em 0 0.2em 1.1em;
+    border-left: 3px solid rgb(var(--accent));
+  }
+
+  p {
+    line-height: 1.85;
+    margin: 1.4em 0;
+  }
+
+  a {
+    color: rgb(var(--accent));
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+  a:hover {
+    color: rgb(var(--accent-strong));
+  }
+
+  img {
+    border-radius: 12px;
+    border: 1px solid rgb(var(--hairline));
+    margin: 1.5em auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.6em 0;
+    font-size: 0.94em;
+  }
+  th, td {
+    border: 1px solid rgb(var(--hairline));
+    padding: 0.6em 0.8em;
+    text-align: left;
+  }
+  th {
+    background: rgb(var(--ink) / 0.04);
+    font-weight: 600;
+    color: rgb(var(--ink));
   }
 }
 
+@media (max-width: 768px) {
+  article.analog-markdown {
+    font-size: 17px;
+
+    h1 { font-size: 1.9em; }
+    h2 { font-size: 1.4em; }
+    h3 { font-size: 1.15em; }
+    blockquote { font-size: 1.1em; }
+  }
+}
+
+/* Share buttons */
 .social-icon {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   transition: transform 0.2s ease-in-out;
 }
 
@@ -92,30 +117,31 @@ p {
   justify-content: center;
   width: 44px;
   height: 44px;
-  background-color: #e2e8f0;
-  dark:bg-slate-700;
+  background-color: rgb(var(--ink) / 0.06);
+  border: 1px solid rgb(var(--hairline));
   border-radius: 9999px;
   transition: all 0.2s ease-in-out;
 }
 
 .social-icon-link:hover {
-  transform: scale(1.1);
-  background-color: #cbd5e1;
-  dark:bg-slate-600;
+  transform: translateY(-2px);
+  background-color: rgb(var(--ink) / 0.1);
 }
 
+/* Copy-to-clipboard button on code blocks */
 pre .copy-button {
   all: unset;
   box-sizing: border-box;
   position: absolute;
   top: 0.5em;
   right: 0.5em;
-  background: #374151;
-  color: #d1d5db;
-  border-radius: 8px;
+  background: rgb(var(--ink) / 0.08);
+  color: rgb(var(--ink-soft));
+  border: 1px solid rgb(var(--hairline));
+  border-radius: 10px;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, background-color 0.2s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -123,11 +149,21 @@ pre .copy-button {
   height: 40px;
 }
 
+.dark pre .copy-button {
+  background: rgb(255 255 255 / 0.08);
+  border-color: rgb(255 255 255 / 0.12);
+}
+
 pre:hover .copy-button {
   opacity: 1;
 }
 
+pre .copy-button:hover {
+  background: rgb(var(--accent) / 0.15);
+  color: rgb(var(--accent));
+}
+
 pre .copy-button svg {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
 }

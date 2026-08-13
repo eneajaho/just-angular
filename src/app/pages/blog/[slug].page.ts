@@ -13,24 +13,27 @@ import {
   injectContentFiles,
   MarkdownComponent,
 } from '@analogjs/content';
-import { AsyncPipe, DatePipe, NgStyle } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 
 import PostAttributes from '../../post-attributes';
 import { Subject, takeUntil } from 'rxjs';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SeoService } from '../../seo.service';
 import { PreviousArticles } from './prev-articles.component';
 import { LinkService } from '../../head-link.service';
-import { Breadcrumbs } from "../../components/breadcrumb.component";
+import { Breadcrumbs } from '../../components/breadcrumb.component';
+import { ReadingProgress } from '../../components/reading-progress.component';
+import { TableOfContents } from '../../components/table-of-contents.component';
 
 @Component({
   selector: 'app-blog-post',
   standalone: true,
   template: `
     @if (post$ | async; as post) {
-    <div class="px-4 sm:px-6 lg:px-8">
-      <div class="max-w-4xl mx-auto">
-        <div class="w-full hidden md:block">
+      <app-reading-progress />
+
+      <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-8">
+        <div class="hidden md:block">
           <app-breadcrumbs
             [breadcrumbs]="[
               { url: '/blog', label: 'Blog' },
@@ -39,54 +42,71 @@ import { Breadcrumbs } from "../../components/breadcrumb.component";
           />
         </div>
 
-        <img
-          class="cover-image mt-8"
-          style="view-transition-name: {{ post.attributes.slug }}"
-          [src]="post.attributes.coverImage"
-          [alt]="post.attributes.description"
-        />
+        <div class="relative mx-auto max-w-3xl">
+          <!-- Table of contents (wide screens) -->
+          <aside class="hidden xl:block absolute left-full top-0 h-full ml-12 w-56">
+            <div class="sticky top-24">
+              <app-toc />
+            </div>
+          </aside>
 
-        <div class="flex items-center mt-8 text-sm text-gray-500 dark:text-gray-400">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
-          <span>Published on {{ post.attributes.publishedAt | date: 'longDate' }}</span>
-        </div>
+          <!-- Cover -->
+          <img
+            class="cover-image mt-4"
+            style="view-transition-name: {{ post.attributes.slug }}"
+            [src]="post.attributes.coverImage"
+            [alt]="post.attributes.description"
+          />
 
-        <div class="mt-4 flex flex-wrap items-center gap-2">
-          @for (tag of post.attributes.tags; track tag) {
-            <a [routerLink]="['/blog']" [queryParams]="{ tag }"
-               class="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900 px-3 py-1 text-sm font-medium text-blue-800 dark:text-blue-200 hover:bg-blue-200 dark:hover:bg-blue-800 transition-colors duration-200">
-              {{ tag }}
-            </a>
+          <!-- Meta -->
+          <div class="mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted">
+            <span class="inline-flex items-center gap-1.5">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              {{ post.attributes.publishedAt | date: 'longDate' }}
+            </span>
+            <span class="h-1 w-1 rounded-full bg-muted/50"></span>
+            <span class="inline-flex items-center gap-1.5">
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+              {{ readingTime(post) }} min read
+            </span>
+          </div>
+
+          <!-- Tags -->
+          @if (post.attributes.tags?.length) {
+            <div class="mt-4 flex flex-wrap gap-2">
+              @for (tag of post.attributes.tags; track tag) {
+                <a [routerLink]="['/blog']" [queryParams]="{ tag }" class="chip">{{ tag }}</a>
+              }
+            </div>
           }
-        </div>
 
-        <article class="prose prose-lg dark:prose-invert max-w-none mt-8">
-          <analog-markdown [content]="post.content" />
-        </article>
-        
-        <hr class="my-8 border-gray-200 dark:border-gray-700" />
+          <!-- Body -->
+          <article class="analog-markdown mt-6">
+            <analog-markdown [content]="post.content" />
+          </article>
 
-        <div class="bg-gray-100 dark:bg-slate-800 p-6 rounded-lg flex items-center justify-between flex-col sm:flex-row gap-6">
-          <div class="text-lg font-semibold text-gray-800 dark:text-white text-center sm:text-left">
-            Did you find this article helpful? Please share it!
+          <hr />
+
+          <!-- Share -->
+          <div class="rounded-2xl border border-hairline bg-surface p-6 flex items-center justify-between flex-col sm:flex-row gap-5">
+            <div class="text-lg font-serif font-semibold text-ink text-center sm:text-left">
+              Found this helpful? Share it.
+            </div>
+            <div class="flex items-center gap-3">
+              <a href="https://twitter.com/intent/tweet?text=Just read {{ post.attributes.title }}&url={{ postUrl }}&via=Enea_Jahollari"
+                 target="_blank" rel="noopener" class="social-icon-link" aria-label="Share on X">
+                <img src="/x.svg" alt="Share on X" class="social-icon" />
+              </a>
+              <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ postUrl }}"
+                 target="_blank" rel="noopener" class="social-icon-link" aria-label="Share on LinkedIn">
+                <img src="/linkedin.webp" alt="Share on LinkedIn" class="social-icon" />
+              </a>
+            </div>
           </div>
-          <div class="flex items-center gap-4">
-            <a href="https://twitter.com/intent/tweet?text=Just read {{ post.attributes.title }}&url={{postUrl}}&via=Enea_Jahollari"
-               target="_blank" rel="noopener" class="social-icon-link">
-              <img src="/x.svg" alt="Share on Twitter" class="social-icon" />
-            </a>
-            <a href="https://www.linkedin.com/sharing/share-offsite/?url={{postUrl}}" target="_blank"
-               rel="noopener" class="social-icon-link">
-              <img src="/linkedin.webp" alt="Share on LinkedIn" class="social-icon" />
-            </a>
-          </div>
-        </div>
 
-        <div class="giscus"></div>
+          <div class="giscus mt-12"></div>
 
-        <app-previous-articles [posts]="previousArticles()" />
+          <app-previous-articles [posts]="previousArticles()" />
         </div>
       </div>
     }
@@ -97,13 +117,13 @@ import { Breadcrumbs } from "../../components/breadcrumb.component";
     AsyncPipe,
     DatePipe,
     RouterLink,
-    NgStyle,
-    RouterLinkActive,
     MarkdownComponent,
     PreviousArticles,
     Breadcrumbs,
+    ReadingProgress,
+    TableOfContents,
   ],
-  providers: [LinkService]
+  providers: [LinkService],
 })
 export default class Blogpost implements OnDestroy, AfterViewChecked {
   private seoService = inject(SeoService);
@@ -143,6 +163,12 @@ export default class Blogpost implements OnDestroy, AfterViewChecked {
     ContentFile<PostAttributes | Record<string, never>> | undefined
   >(undefined);
 
+  /** Rough reading time from the markdown word count. */
+  readingTime(post: ContentFile<PostAttributes | Record<string, never>>): number {
+    const words = (post.content ?? '').trim().split(/\s+/).length;
+    return Math.max(1, Math.round(words / 220));
+  }
+
   constructor() {
     this.post$.pipe(takeUntil(this.destroy$)).subscribe((post) => {
       this.post.set(post);
@@ -154,7 +180,11 @@ export default class Blogpost implements OnDestroy, AfterViewChecked {
       });
 
       if (post.attributes.canonicalUrl) {
-        this.linkService.addTag({ rel: 'canonical', href: post.attributes.canonicalUrl, pageId: post.slug });
+        this.linkService.addTag({
+          rel: 'canonical',
+          href: post.attributes.canonicalUrl,
+          pageId: post.slug,
+        });
       } else {
         this.linkService.removeLinks();
       }
@@ -200,40 +230,4 @@ export default class Blogpost implements OnDestroy, AfterViewChecked {
     this.destroy$.complete();
     this.linkService.removeLinks();
   }
-
-  // isDev = import.meta.env.MODE === 'development';
-  // isBrowser = import.meta.env.SSR === false;
-  // hasChanges = signal(false);
-  // previousContent = computedPrevious(this.content);
-  // lastUpdate?: ReturnType<typeof setTimeout>;
-
-  // updateContent($event: string, markdownRenderer: MarkdownComponent) {
-  //   this.content.set($event);
-  //   this.hasChanges.set(true);
-  //   this.loading.set(true);
-  //   let times = 0;
-  //   let interval = setInterval(() => {
-  //     if (times > 3) {
-  //       clearInterval(interval);
-  //       this.loading.set(false);
-  //     }
-  //     this.cdr.detectChanges();
-  //     times++;
-  //     this.loading.set(false);
-  //   }, 1000);
-  // }
-  // updateMarkdownFile() {
-  //   const post = this.post();
-  //   if (post) {
-  //     this.http
-  //       .post(`/api/updateContent`, {
-  //         slug: post.attributes.slug,
-  //         content: this.content(),
-  //       })
-  //       .subscribe((res) => {
-  //         console.log(res);
-  //         this.hasChanges.set(false);
-  //       });
-  //   }
-  // }
 }

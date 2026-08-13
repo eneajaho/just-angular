@@ -1,177 +1,189 @@
 <script lang="ts">
-import { signal } from '@angular/core';
+import { signal, computed } from '@angular/core';
 import { injectContentFiles } from '@analogjs/content';
 import PostAttributes from '../../post-attributes';
 import { RouteMeta } from '@analogjs/router';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { injectQueryParams } from 'ngxtension/inject-query-params';
-import {Breadcrumbs} from "../../components/breadcrumb.component";
+import { Breadcrumbs } from '../../components/breadcrumb.component';
 
 defineMetadata({
-  imports: [RouterLink, DatePipe, Breadcrumbs]
-})
+  imports: [RouterLink, DatePipe, Breadcrumbs],
+});
 
 export const routeMeta: RouteMeta = {
   title: 'All Blog Posts - justangular.com',
 };
 
-const posts = injectContentFiles<PostAttributes>()
+const allPosts = injectContentFiles<PostAttributes>()
   .filter((article) => new Date() > new Date(article.attributes.publishedAt))
   .sort((a1, a2) =>
     a1.attributes.publishedAt > a2.attributes.publishedAt ? -1 : 1
   );
 
-const hideImagesParam = injectQueryParams('hideImages');
+// Top tags by frequency, for the filter row.
+const tagCounts = new Map<string, number>();
+allPosts.forEach((p) =>
+  (p.attributes.tags ?? []).forEach((t) =>
+    tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1)
+  )
+);
+const allTags = [...tagCounts.entries()]
+  .sort((a, b) => b[1] - a[1])
+  .map(([tag]) => tag)
+  .slice(0, 12);
 
-const hideImages = signal(hideImagesParam() ?? false);
+const tagParam = injectQueryParams('tag');
+const search = signal('');
+const activeTag = signal<string | null>((tagParam() as string) ?? null);
 
-function handleHideImagesChange(event: Event) {
-  hideImages.set((event.target as HTMLInputElement).checked);
+const filteredPosts = computed(() => {
+  const q = search().toLowerCase().trim();
+  const tag = activeTag();
+  return allPosts.filter((p) => {
+    const tags = p.attributes.tags ?? [];
+    const matchesTag = !tag || tags.includes(tag);
+    const haystack = (
+      p.attributes.title +
+      ' ' +
+      p.attributes.description +
+      ' ' +
+      tags.join(' ')
+    ).toLowerCase();
+    return matchesTag && (!q || haystack.includes(q));
+  });
+});
+
+function onSearch(event: Event) {
+  search.set((event.target as HTMLInputElement).value);
+}
+
+function selectTag(tag: string | null) {
+  activeTag.set(tag);
 }
 </script>
-<template>
-<div class="w-full hidden md:block">
-  <app-breadcrumbs [breadcrumbs]="[{ url: '/blog', label: 'Blog' }]" />
-</div>
 
-<div class="py-20 sm:py-24">
-  <div class="mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="mx-auto max-w-2xl lg:max-w-6xl">
-      <!-- Header Section -->
-      <div class="text-center mb-16">
-        <div class="mb-4">
-          <span class="inline-flex items-center rounded-full bg-blue-500/10 px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 ring-1 ring-inset ring-blue-500/20">
-            Blog Posts
-          </span>
-        </div>
-        <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-5xl lg:text-6xl">
-          Angular Insights & Tutorials
-        </h1>
-        <p class="mt-6 text-xl leading-8 text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-          Grow your Angular development skills with our carefully curated posts covering everything from basics to advanced techniques.
-        </p>
-        
-        <!-- Hide Images Toggle -->
-        <div class="mt-8 flex justify-center">
-          <label class="flex items-center space-x-3 cursor-pointer">
-            <input 
-              class="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-600 bg-transparent" 
-              type="checkbox"
-              [checked]="hideImages()" 
-              (change)="handleHideImagesChange($event)"
-            >
-            <span class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-200">
-              Hide Cover Images
-            </span>
-          </label>
-        </div>
+<template>
+  <div class="w-full hidden md:block">
+    <app-breadcrumbs [breadcrumbs]="[{ url: '/blog', label: 'Blog' }]" />
+  </div>
+
+  <div class="mx-auto max-w-6xl px-6 lg:px-8 py-14 sm:py-20">
+    <!-- Header -->
+    <header class="max-w-3xl">
+      <p class="eyebrow">The archive</p>
+      <h1 class="mt-3 font-serif text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-ink">
+        Angular insights &amp; tutorials
+      </h1>
+      <p class="mt-5 text-lg leading-8 text-muted">
+        {{ allPosts.length }} articles on signals, change detection, resources, forms,
+        SSR and everything in between — from first principles to the sharp edges.
+      </p>
+    </header>
+
+    <!-- Toolbar: search + tag filters -->
+    <div class="mt-10 space-y-5">
+      <div class="relative max-w-md">
+        <svg class="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted"
+             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8" /><path d="m21 21-4.3-4.3" />
+        </svg>
+        <input
+          type="search"
+          placeholder="Search articles…"
+          [value]="search()"
+          (input)="onSearch($event)"
+          class="w-full rounded-full border border-hairline bg-surface pl-11 pr-4 py-3 text-ink placeholder:text-muted outline-none focus:border-ink/30 focus:ring-2 focus:ring-accent/20 transition"
+        />
       </div>
 
-      <!-- Blog Posts Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        @for (post of posts; track post.attributes.slug) {
-        <article class="group relative glass rounded-2xl overflow-hidden hover:scale-105 transition-all duration-300">
-          @if (!hideImages()) {
-          <div class="relative aspect-[16/9] overflow-hidden">
-            <div [routerLink]="[post.attributes.slug]"
-              class="absolute inset-0 cursor-pointer">
-              <img 
-                [src]="post.attributes.coverImage" 
-                [alt]="post.attributes.description" 
+      <div class="flex flex-wrap items-center gap-2">
+        <button type="button" class="chip" [attr.data-active]="!activeTag()" (click)="selectTag(null)">
+          All
+        </button>
+        @for (tag of allTags; track tag) {
+          <button type="button" class="chip" [attr.data-active]="activeTag() === tag" (click)="selectTag(tag)">
+            {{ tag }}
+          </button>
+        }
+      </div>
+    </div>
+
+    <!-- Result count -->
+    <p class="mt-8 text-sm text-muted">
+      Showing <span class="font-semibold text-ink">{{ filteredPosts().length }}</span>
+      @if (activeTag()) { in <span class="font-semibold text-ink">{{ activeTag() }}</span> }
+      @if (search()) { matching “<span class="font-semibold text-ink">{{ search() }}</span>” }
+    </p>
+
+    <!-- Grid -->
+    @if (filteredPosts().length > 0) {
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+        @for (post of filteredPosts(); track post.attributes.slug) {
+          <article class="group card hover-lift overflow-hidden flex flex-col">
+            <a [routerLink]="[post.attributes.slug]" class="relative block aspect-[16/9] overflow-hidden bg-paper-soft">
+              <img
+                [src]="post.attributes.coverImage"
+                [alt]="post.attributes.description"
                 loading="lazy"
                 style="view-transition-name: {{ post.attributes.slug }}"
-                class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-110" 
+                class="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]"
               />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </div>
-          </div>
-          }
-          
-          <div class="p-6">
-            <div class="flex items-center gap-x-4 text-sm mb-4">
-              <time datetime="2020-03-16" class="text-gray-500 dark:text-gray-400">
-                {{ post.attributes.publishedAt | date }}
-              </time>
-              <div class="h-1 w-1 rounded-full bg-gray-400 dark:bg-gray-400"></div>
-              <span class="text-gray-500 dark:text-gray-400">5 min read</span>
-            </div>
-            
-            <div class="group relative">
-              <h3 class="text-xl font-semibold leading-7 text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors duration-200 mb-3">
+            </a>
+
+            <div class="p-6 flex flex-col flex-1">
+              <div class="flex items-center gap-2 text-xs text-muted">
+                <time>{{ post.attributes.publishedAt | date: 'MMM d, y' }}</time>
+                @if (post.attributes.tags?.[0]) {
+                  <span class="h-1 w-1 rounded-full bg-muted/50"></span>
+                  <span>{{ post.attributes.tags?.[0] }}</span>
+                }
+              </div>
+
+              <h2 class="mt-2 font-serif text-2xl font-semibold leading-snug text-ink group-hover:text-accent transition-colors">
                 <a [routerLink]="[post.attributes.slug]">
                   <span class="absolute inset-0"></span>
                   {{ post.attributes.title }}
                 </a>
-              </h3>
-              
-              <p class="text-gray-600 dark:text-gray-300 leading-6 mb-4 line-clamp-3">
+              </h2>
+
+              <p class="mt-2.5 text-muted leading-7 line-clamp-2">
                 {{ post.attributes.description }}
               </p>
-              
-              <div class="flex items-center justify-between">
-                <a 
-                  [routerLink]="[post.attributes.slug]"
-                  class="inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 font-medium transition-colors duration-200"
-                >
-                  Read more
-                  <svg class="ml-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </a>
-                
-                <!-- Tags (if available) -->
-                @if (post.attributes.tags && post.attributes.tags.length > 0) {
-                <div class="flex space-x-2">
-                  @for (tag of post.attributes.tags.slice(0, 2); track tag) {
-                  <span class="inline-flex items-center rounded-full bg-blue-500/10 px-2.5 py-0.5 text-xs font-medium text-blue-600 dark:text-blue-400 ring-1 ring-inset ring-blue-500/20">
-                    {{ tag }}
-                  </span>
-                  }
-                </div>
-                }
+
+              <div class="mt-4 flex items-center gap-2 pt-4 border-t border-hairline">
+                <span class="text-sm font-semibold text-ink group-hover:text-accent transition-colors inline-flex items-center gap-1">
+                  Read article
+                  <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </span>
               </div>
             </div>
-          </div>
-        </article>
+          </article>
         }
       </div>
+    } @else {
+      <div class="mt-10 rounded-2xl border border-dashed border-hairline p-16 text-center">
+        <p class="font-serif text-2xl text-ink">No articles found</p>
+        <p class="mt-2 text-muted">Try a different search term or clear the filters.</p>
+        <button type="button" class="btn btn-ghost mt-6" (click)="selectTag(null); search.set('')">
+          Clear filters
+        </button>
+      </div>
+    }
 
-      <!-- Newsletter Signup -->
-      <div class="mt-20 text-center">
-        <div class="glass p-8 rounded-2xl">
-          <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-            Stay Updated with Angular
-          </h3>
-          <p class="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
-            Get the latest Angular insights, tutorials, and best practices delivered to your inbox. 
-            Join our community of developers.
-          </p>
-          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <a 
-              href="https://twitter.com/Enea_Jahollari"
-              target="_blank"
-              class="inline-flex items-center rounded-lg bg-blue-600 px-6 py-3 text-lg font-semibold text-white shadow-sm hover:bg-blue-500 transition-all duration-200 hover:scale-105"
-            >
-              <svg class="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-              </svg>
-              Follow on Twitter
-            </a>
-            <a 
-              href="https://github.com/eneajahollari"
-              target="_blank"
-              class="inline-flex items-center rounded-lg border border-gray-300 dark:border-white/20 px-6 py-3 text-lg font-semibold text-gray-700 dark:text-white hover:bg-gray-50 dark:hover:bg-white/10 transition-all duration-200"
-            >
-              <svg class="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-              </svg>
-              View on GitHub
-            </a>
-          </div>
-        </div>
+    <!-- CTA -->
+    <div class="mt-20 relative overflow-hidden rounded-3xl border border-hairline bg-ink px-8 py-12 sm:px-14 text-center">
+      <h3 class="font-serif text-2xl sm:text-3xl font-semibold text-paper">Stay in the loop</h3>
+      <p class="mx-auto mt-3 max-w-xl text-paper/70">
+        The latest Angular deep dives, the moment they're published.
+      </p>
+      <div class="mt-7 flex flex-wrap items-center justify-center gap-3">
+        <a href="https://twitter.com/Enea_Jahollari" target="_blank" rel="noopener"
+           class="btn bg-paper text-ink hover:-translate-y-0.5">Follow on Twitter ↗</a>
+        <a href="https://github.com/eneajahollari" target="_blank" rel="noopener"
+           class="btn border border-paper/25 text-paper hover:bg-paper/10 hover:-translate-y-0.5">GitHub ↗</a>
       </div>
     </div>
   </div>
-</div>
 </template>
