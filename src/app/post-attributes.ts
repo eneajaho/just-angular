@@ -3,6 +3,8 @@ export default interface PostAttributes {
   slug: string;
   description: string;
   coverImage: string;
+  /** Optional light-theme variant of the cover; falls back to coverImage. */
+  coverImageLight?: string;
   coverImageAlt: string;
   tags: string[];
   publishedAt: string;

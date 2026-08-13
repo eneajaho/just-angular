@@ -24,6 +24,7 @@ import { LinkService } from '../../head-link.service';
 import { Breadcrumbs } from '../../components/breadcrumb.component';
 import { ReadingProgress } from '../../components/reading-progress.component';
 import { TableOfContents } from '../../components/table-of-contents.component';
+import { ThemeService } from '../../theme.service';
 
 @Component({
   selector: 'app-blog-post',
@@ -54,7 +55,7 @@ import { TableOfContents } from '../../components/table-of-contents.component';
           <img
             class="cover-image mt-4"
             style="view-transition-name: {{ post.attributes.slug }}"
-            [src]="post.attributes.coverImage"
+            [src]="coverFor(post)"
             [alt]="post.attributes.description"
           />
 
@@ -129,7 +130,18 @@ export default class Blogpost implements OnDestroy, AfterViewChecked {
   private seoService = inject(SeoService);
   private linkService = inject(LinkService);
   private router = inject(Router);
+  private theme = inject(ThemeService);
   readonly post$ = injectContent<PostAttributes>('slug');
+
+  /** Theme-aware cover: use the light variant when present and the theme is light. */
+  coverFor(
+    post: ContentFile<PostAttributes | Record<string, never>>
+  ): string {
+    const attrs = post.attributes as PostAttributes;
+    return this.theme.theme() === 'light' && attrs.coverImageLight
+      ? attrs.coverImageLight
+      : attrs.coverImage;
+  }
 
   private destroy$ = new Subject<void>();
 

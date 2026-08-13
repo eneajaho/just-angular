@@ -3,6 +3,7 @@ title: Give me chained resources Angular 🚀
 slug: chaining-resources-in-angular
 description: Angular v22 lets a resource's request depend on another resource's value. The new chain function in the params context propagates loading, error, and idle states down the chain — no more undefined juggling. Here's how it works, how it's built under the hood, and what you can compose on top of it.
 coverImage: "/chaining-resources-in-angular.png"
+coverImageLight: "/chaining-resources-in-angular-light.png"
 coverImageAlt: "Chaining resources in Angular with the chain function in the params context"
 tags: ["Angular", "Signals", "Resource", "httpResource", "Angular v22"]
 publishedAt: "2026-08-13T00:00:00.000Z"

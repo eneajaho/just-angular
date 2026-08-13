@@ -1,9 +1,12 @@
 import { RouteMeta } from '@analogjs/router';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { injectContentFiles } from '@analogjs/content';
 import PostAttributes from '../post-attributes';
+import { ThemeService } from '../theme.service';
+import { ContentFile } from '@analogjs/content';
 
 export const routeMeta: RouteMeta = {
   title: 'JustAngular - justangular.com',
@@ -99,7 +102,7 @@ export const routeMeta: RouteMeta = {
           <a [routerLink]="['/blog', post.attributes.slug]"
              class="group card hover-lift overflow-hidden flex flex-col">
             <div class="relative aspect-[16/9] overflow-hidden bg-paper-soft">
-              <img [src]="post.attributes.coverImage" [alt]="post.attributes.description"
+              <img [src]="coverFor(post)" [alt]="post.attributes.description"
                    loading="lazy"
                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
             </div>
@@ -164,6 +167,9 @@ export const routeMeta: RouteMeta = {
   `,
 })
 export default class HomePageComponent {
+  private sanitizer = inject(DomSanitizer);
+  readonly theme = inject(ThemeService);
+
   private readonly allPosts = injectContentFiles<PostAttributes>()
     .filter((a) => new Date() > new Date(a.attributes.publishedAt))
     .sort((a, b) => (a.attributes.publishedAt > b.attributes.publishedAt ? -1 : 1));
@@ -171,7 +177,15 @@ export default class HomePageComponent {
   readonly latestPosts = this.allPosts.slice(0, 3);
   readonly postCount = this.allPosts.length;
 
-  readonly topics = [
+  /** Theme-aware cover: use the light variant when present and the theme is light. */
+  coverFor(post: ContentFile<PostAttributes>): string {
+    const { coverImage, coverImageLight } = post.attributes;
+    return this.theme.theme() === 'light' && coverImageLight
+      ? coverImageLight
+      : coverImage;
+  }
+
+  private readonly rawTopics = [
     {
       title: 'Signals',
       desc: 'How the reactive primitive works, and how to model state with it effectively.',
@@ -209,4 +223,9 @@ export default class HomePageComponent {
       icon: '<svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a10 10 0 1 0-10-10 10 10 0 0 0 10 10z"/><path d="m8 12 3 3 5-6"/></svg>',
     },
   ];
+
+  readonly topics = this.rawTopics.map((t) => ({
+    ...t,
+    icon: this.sanitizer.bypassSecurityTrustHtml(t.icon),
+  }));
 }

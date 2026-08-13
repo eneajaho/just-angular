@@ -1,12 +1,13 @@
 <script lang="ts">
-import { signal, computed } from '@angular/core';
-import { injectContentFiles } from '@analogjs/content';
+import { signal, computed, inject } from '@angular/core';
+import { injectContentFiles, ContentFile } from '@analogjs/content';
 import PostAttributes from '../../post-attributes';
 import { RouteMeta } from '@analogjs/router';
 import { RouterLink } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { injectQueryParams } from 'ngxtension/inject-query-params';
 import { Breadcrumbs } from '../../components/breadcrumb.component';
+import { ThemeService } from '../../theme.service';
 
 defineMetadata({
   imports: [RouterLink, DatePipe, Breadcrumbs],
@@ -22,28 +23,52 @@ const allPosts = injectContentFiles<PostAttributes>()
     a1.attributes.publishedAt > a2.attributes.publishedAt ? -1 : 1
   );
 
-// Top tags by frequency, for the filter row.
-const tagCounts = new Map<string, number>();
+// Dedupe tags case-insensitively (e.g. "Angular" and "angular" → one chip),
+// keeping a canonical display, sorted by frequency.
+const tagMap = new Map<string, { display: string; count: number }>();
 allPosts.forEach((p) =>
-  (p.attributes.tags ?? []).forEach((t) =>
-    tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1)
-  )
+  (p.attributes.tags ?? []).forEach((t) => {
+    const key = t.toLowerCase();
+    const entry = tagMap.get(key);
+    if (!entry) {
+      tagMap.set(key, { display: t, count: 1 });
+    } else {
+      entry.count++;
+      // prefer a capitalized display over a lowercase one
+      if (/^[A-Z]/.test(t) && !/^[A-Z]/.test(entry.display)) entry.display = t;
+    }
+  })
 );
-const allTags = [...tagCounts.entries()]
-  .sort((a, b) => b[1] - a[1])
-  .map(([tag]) => tag)
-  .slice(0, 12);
+const allTags = [...tagMap.values()]
+  .sort((a, b) => b.count - a.count)
+  .slice(0, 12)
+  .map((e) => e.display);
 
 const tagParam = injectQueryParams('tag');
+const theme = inject(ThemeService);
 const search = signal('');
-const activeTag = signal<string | null>((tagParam() as string) ?? null);
+
+// Resolve the ?tag= query param to its canonical display (case-insensitive).
+const initialTag = (() => {
+  const p = (tagParam() as string) ?? null;
+  if (!p) return null;
+  return allTags.find((t) => t.toLowerCase() === p.toLowerCase()) ?? p;
+})();
+const activeTag = signal<string | null>(initialTag);
+
+// Theme-aware cover: use the light variant when present and the theme is light.
+function coverFor(post: ContentFile<PostAttributes>): string {
+  const { coverImage, coverImageLight } = post.attributes;
+  return theme.theme() === 'light' && coverImageLight ? coverImageLight : coverImage;
+}
 
 const filteredPosts = computed(() => {
   const q = search().toLowerCase().trim();
   const tag = activeTag();
   return allPosts.filter((p) => {
     const tags = p.attributes.tags ?? [];
-    const matchesTag = !tag || tags.includes(tag);
+    const matchesTag =
+      !tag || tags.some((t) => t.toLowerCase() === tag.toLowerCase());
     const haystack = (
       p.attributes.title +
       ' ' +
@@ -124,7 +149,7 @@ function selectTag(tag: string | null) {
           <article class="group card hover-lift overflow-hidden flex flex-col">
             <a [routerLink]="[post.attributes.slug]" class="relative block aspect-[16/9] overflow-hidden bg-paper-soft">
               <img
-                [src]="post.attributes.coverImage"
+                [src]="coverFor(post)"
                 [alt]="post.attributes.description"
                 loading="lazy"
                 style="view-transition-name: {{ post.attributes.slug }}"
