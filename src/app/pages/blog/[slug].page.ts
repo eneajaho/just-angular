@@ -2,6 +2,7 @@ import {
   AfterViewChecked,
   Component,
   OnDestroy,
+  PLATFORM_ID,
   ViewEncapsulation,
   computed,
   inject,
@@ -13,7 +14,7 @@ import {
   injectContentFiles,
   MarkdownComponent,
 } from '@analogjs/content';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, DatePipe, isPlatformBrowser } from '@angular/common';
 
 import PostAttributes from '../../post-attributes';
 import { Subject, takeUntil } from 'rxjs';
@@ -131,6 +132,7 @@ export default class Blogpost implements OnDestroy, AfterViewChecked {
   private linkService = inject(LinkService);
   private router = inject(Router);
   private theme = inject(ThemeService);
+  private isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   readonly post$ = injectContent<PostAttributes>('slug');
 
   /** Theme-aware cover: use the light variant when present and the theme is light. */
@@ -177,7 +179,8 @@ export default class Blogpost implements OnDestroy, AfterViewChecked {
 
   /** Rough reading time from the markdown word count. */
   readingTime(post: ContentFile<PostAttributes | Record<string, never>>): number {
-    const words = (post.content ?? '').trim().split(/\s+/).length;
+    const content = typeof post.content === 'string' ? post.content : '';
+    const words = content.trim().split(/\s+/).filter(Boolean).length;
     return Math.max(1, Math.round(words / 220));
   }
 
@@ -204,6 +207,7 @@ export default class Blogpost implements OnDestroy, AfterViewChecked {
   }
 
   ngAfterViewChecked() {
+    if (!this.isBrowser) return;
     document.querySelectorAll('pre').forEach((pre) => {
       if (pre.querySelector('.copy-button')) {
         return;
