@@ -3,6 +3,7 @@ title: Providing inputs in DI 🎁
 slug: providing-inputs-in-di
 description: Learn how to use the new signal inputs for removing prop drilling of inputs in Angular.
 coverImage: "/providing-inputs-in-di.png"
+coverImageLight: "/providing-inputs-in-di-light.png"
 coverImageAlt: "Removing prop drilling with signal inputs in Angular"
 tags: ["Angular", "Dependency Injection", "Signals", "Inputs"]
 publishedAt: "2024-05-27T00:00:00.000Z"

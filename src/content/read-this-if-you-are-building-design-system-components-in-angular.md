@@ -3,6 +3,7 @@ title: Read this if you are building design system components in Angular 🎨
 slug: read-this-if-you-are-building-design-system-components-in-angular
 description: Learn how to make your components extensible and easy to use in Angular by other developers.
 coverImage: "/read-this-if-you-are-building-design-system-components-in-angular.png"
+coverImageLight: "/read-this-if-you-are-building-design-system-components-in-angular-light.png"
 coverImageAlt: "Read this if you are building design system components in Angular 🎨"
 tags: ["Angular", "DesignSystem", "Signals", "Inputs", "Models"]
 publishedAt: "2024-05-31T00:00:00.000Z"

@@ -1,0 +1,9 @@
+{
+  "title": ["PROVIDING INPUTS IN DI"],
+  "emoji": "🎁",
+  "theme": "light",
+  "titleSize": 118,
+  "handle": "@enea_jahollari",
+  "output": "src/assets/providing-inputs-in-di-light.png",
+  "code": "@Component({\n  template: `<app-child />`,\n  providers: [\n    { provide: DATA, useFactory: () => inject(ParentComponent).data },\n  ],\n})\nexport class ParentComponent {\n  data = input<string>();\n}\n\n@Component({ template: `{{ data() }}` })\nexport class InnerChildComponent {\n  data = inject(DATA);\n}"
+}

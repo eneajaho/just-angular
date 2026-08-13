@@ -1,0 +1,9 @@
+{
+  "title": ["A NEW ERA FOR ANGULAR", "ZONELESS CHANGE DETECTION"],
+  "emoji": "",
+  "theme": "light",
+  "titleSize": 104,
+  "handle": "@enea_jahollari",
+  "output": "src/assets/a-new-era-for-angular-zoneless-change-detection-light.png",
+  "code": "bootstrapApplication(AppComponent, {\n  providers: [\n    // ...other providers\n    provideExperimentalZonelessChangeDetection(),\n  ],\n});\n\n// and remove zone.js from the angular.json polyfills array"
+}

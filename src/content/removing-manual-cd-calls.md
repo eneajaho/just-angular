@@ -3,6 +3,7 @@ title: Removing manual change detection calls from my Angular app ⚡️
 slug: removing-manual-cd-calls
 description: Learn step by step how to remove manual change detection calls from your Angular application and make it more robust.
 coverImage: "/removing-manual-cd-calls.png"
+coverImageLight: "/removing-manual-cd-calls-light.png"
 coverImageAlt: "Removing manual change detection calls from my Angular app"
 tags: ["Angular", "Change Detection", "Signals", "markForCheck"]
 publishedAt: "2024-04-30T00:00:00.000Z"

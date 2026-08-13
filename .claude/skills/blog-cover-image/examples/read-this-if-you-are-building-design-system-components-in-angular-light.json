@@ -1,0 +1,9 @@
+{
+  "title": ["READ THIS IF YOU ARE BUILDING DESIGN", "SYSTEM COMPONENTS IN ANGULAR"],
+  "emoji": "🎨",
+  "theme": "light",
+  "titleSize": 88,
+  "handle": "@enea_jahollari",
+  "output": "src/assets/read-this-if-you-are-building-design-system-components-in-angular-light.png",
+  "code": "@Component({\n  selector: 'my-tabs',\n})\nexport class TabsComponent {\n  fullWidth = model<boolean>(false);\n  showIcon = model<boolean>(false);\n}\n\n@Directive({ selector: 'my-tabs[defaultConfig]' })\nexport class DefaultTabsDirective {\n  constructor(private tabs: TabsComponent) {\n    tabs.fullWidth.set(true);\n    tabs.showIcon.set(true);\n  }\n}"
+}

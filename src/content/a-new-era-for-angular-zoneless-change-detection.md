@@ -3,6 +3,7 @@ title: A new era for Angular - Zoneless Change Detection
 slug: a-new-era-for-angular-zoneless-change-detection
 description: Learn how Angular is going to work without Zone.js in the future, and how you can enable it in your application.
 coverImage: "/a-new-era-for-angular-zoneless-change-detection.png"
+coverImageLight: "/a-new-era-for-angular-zoneless-change-detection-light.png"
 coverImageAlt: " A new era for Angular - Zoneless Change Detection"
 tags: ["Angular", "Change Detection", "Signals", "RefreshView"]
 publishedAt: "2024-04-17T00:00:00.000Z"
