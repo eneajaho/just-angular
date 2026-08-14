@@ -133,6 +133,9 @@ a:hover { color: rgb(var(--accent-strong)); }
 /* Card surface (replaces the old translucent glass) */
 .glass,
 .card {
+  /* keep as the containing block so a stretched-link `.absolute.inset-0`
+     inside a card can't escape and cover the whole viewport */
+  position: relative;
   background: rgb(var(--surface));
   border: 1px solid rgb(var(--hairline));
   border-radius: 18px;
